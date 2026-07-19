@@ -9,13 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper: #fbfaf7;
-    --paper-line: #dfe3e6;
-    --ink: #1c2a35;
-    --muted: #6b7885;
-    --cisco: #146c94;
-    --logisim: #a4501c;
-    --panel-border: #e3e6e2;
+    --paper: #f8f7f3;
+    --paper-line: #e2e5e0;
+    --ink: #182430;
+    --muted: #6e7a86;
+    --cisco: #0f6690;
+    --cisco-soft: #e7f1f6;
+    --logisim: #a04d1a;
+    --logisim-soft: #f7ece2;
+    --panel-border: #e5e7e1;
+    --shadow: 28, 42, 53;
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
@@ -34,26 +37,19 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: clamp(22px, 4vw, 56px);
+    align-items: center;
+    padding: clamp(22px, 4vw, 60px) clamp(18px, 4vw, 56px);
     background-image:
       linear-gradient(var(--paper-line) 1px, transparent 1px),
       linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
-    background-size: 48px 48px;
+    background-size: 44px 44px;
     background-position: -1px -1px;
-    opacity: 1;
-  }
-
-  .sheet::before{
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at center, rgba(251,250,247,0.2) 0%, var(--paper) 72%);
-    pointer-events: none;
   }
 
   .topbar{
     position: relative;
     z-index: 1;
+    width: min(980px, 100%);
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -68,19 +64,45 @@
 
   .topbar .ref{ color: var(--ink); font-weight: 600; }
 
-  main.card{
+  .stage{
     position: relative;
     z-index: 1;
-    align-self: center;
-    width: min(920px, 100%);
-    margin: 36px 0;
-    padding: clamp(34px, 6vw, 72px) clamp(24px, 7vw, 80px);
+    width: min(980px, 100%);
+    margin: 32px 0;
+  }
+
+  main.card{
+    position: relative;
+    padding: clamp(38px, 6.5vw, 84px) clamp(24px, 7vw, 88px) clamp(46px, 7vw, 96px);
     background: #ffffff;
     border: 1px solid var(--panel-border);
-    border-radius: 6px;
+    border-radius: 8px;
     text-align: center;
-    box-shadow: 0 1px 3px rgba(28,42,53,0.04), 0 20px 44px -28px rgba(28,42,53,0.18);
+    box-shadow:
+      0 1px 2px rgba(var(--shadow), 0.05),
+      0 8px 16px -8px rgba(var(--shadow), 0.10),
+      0 32px 60px -30px rgba(var(--shadow), 0.28);
   }
+
+  main.card::before{
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    border-radius: 8px 8px 0 0;
+    background: linear-gradient(90deg, var(--cisco) 0%, var(--cisco) 46%, var(--logisim) 54%, var(--logisim) 100%);
+  }
+
+  .corner{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--paper-line);
+  }
+  .corner.tl{ top: -1px; left: -1px; border-right:none; border-bottom:none; border-radius: 8px 0 0 0; }
+  .corner.tr{ top: -1px; right: -1px; border-left:none; border-bottom:none; border-radius: 0 8px 0 0; }
+  .corner.bl{ bottom: -1px; left: -1px; border-right:none; border-top:none; border-radius: 0 0 0 8px; }
+  .corner.br{ bottom: -1px; right: -1px; border-left:none; border-top:none; border-radius: 0 0 8px 0; }
 
   .kicker{
     font-family: 'IBM Plex Mono', monospace;
@@ -88,85 +110,91 @@
     letter-spacing: 0.32em;
     color: var(--muted);
     text-transform: uppercase;
-    margin-bottom: 22px;
+    margin-bottom: 30px;
   }
 
-  .titles{
+  .duo{
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: clamp(14px, 3vw, 36px);
+  }
+
+  .app-block{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 16px;
   }
+
+  .icon-wrap{
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-wrap.cisco{ background: var(--cisco-soft); }
+  .icon-wrap.logisim{ background: var(--logisim-soft); }
+
+  .icon-wrap svg{ width: 30px; height: 30px; }
 
   h1.app-title{
     font-family: 'Source Serif 4', serif;
     font-weight: 600;
-    font-size: clamp(26px, 5vw, 44px);
-    line-height: 1.16;
+    line-height: 1.18;
     letter-spacing: -0.01em;
+    font-size: clamp(21px, 3.4vw, 30px);
   }
 
-  h1.app-title.cisco{ color: var(--cisco); }
-  h1.app-title.cisco .sub{
+  h1.app-title .sub{
     display: block;
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 500;
-    font-size: 0.42em;
-    letter-spacing: 0.06em;
-    color: var(--ink);
-    margin-top: 6px;
-    text-transform: uppercase;
-  }
-
-  .divider{
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
-    max-width: 360px;
-    margin: 22px auto;
-  }
-
-  .divider .line{
-    flex: 1;
-    height: 1px;
-    background: var(--paper-line);
-  }
-
-  .divider .word{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.2em;
+    font-size: 0.5em;
+    letter-spacing: 0.05em;
     color: var(--muted);
+    margin-top: 5px;
     text-transform: uppercase;
   }
 
+  h1.app-title.cisco{ color: var(--cisco); }
   h1.app-title.logisim{ color: var(--logisim); }
 
+  .amp{
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: clamp(22px, 3vw, 30px);
+    color: var(--paper-line);
+    line-height: 1;
+  }
+
   p.desc{
-    max-width: 58ch;
-    margin: 28px auto 0;
+    max-width: 56ch;
+    margin: 38px auto 0;
     font-size: clamp(14px, 1.6vw, 16px);
-    line-height: 1.65;
+    line-height: 1.7;
     color: var(--muted);
   }
 
   footer.datasheet{
     position: relative;
     z-index: 1;
-    align-self: center;
-    width: min(920px, 100%);
+    width: min(980px, 100%);
     display: grid;
     grid-template-columns: 1.4fr 0.8fr 0.8fr;
     border: 1px solid var(--panel-border);
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
     background: #ffffff;
     font-family: 'IBM Plex Mono', monospace;
+    box-shadow: 0 6px 20px -12px rgba(var(--shadow), 0.18);
   }
 
   footer.datasheet .field{
-    padding: 16px 22px;
+    padding: 18px 24px;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -190,6 +218,8 @@
   }
 
   @media (max-width: 640px){
+    .duo{ grid-template-columns: 1fr; }
+    .amp{ transform: rotate(90deg); margin: 2px 0; }
     footer.datasheet{ grid-template-columns: 1fr; }
     footer.datasheet .field + .field{ border-left:none; border-top: 1px solid var(--panel-border); }
   }
@@ -204,27 +234,51 @@
     <span class="ref">Tema #1</span>
   </div>
 
-  <main class="card">
-    <p class="kicker">Investigación de herramientas de simulación</p>
+  <div class="stage">
+    <main class="card">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
 
-    <div class="titles">
-      <h1 class="app-title cisco">Cisco IT Essentials<span class="sub">Virtual Desktop</span></h1>
+      <p class="kicker">Investigación de herramientas de simulación</p>
 
-      <div class="divider">
-        <span class="line"></span>
-        <span class="word">y</span>
-        <span class="line"></span>
+      <div class="duo">
+        <div class="app-block">
+          <span class="icon-wrap cisco">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="9" width="36" height="24" rx="2" stroke="#0f6690" stroke-width="2.4"/>
+              <path d="M18 39h12" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M24 33v6" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M12 16h10M12 21h16M12 26h13" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <h1 class="app-title cisco">Cisco IT Essentials<span class="sub">Virtual Desktop</span></h1>
+        </div>
+
+        <span class="amp">&amp;</span>
+
+        <div class="app-block">
+          <span class="icon-wrap logisim">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 14v20" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#a04d1a" stroke-width="2.4" stroke-linejoin="round"/>
+              <path d="M6 18h6M6 30h6" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M32 24h10" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+              <circle cx="35" cy="24" r="1.6" fill="#a04d1a"/>
+            </svg>
+          </span>
+          <h1 class="app-title logisim">Logisim Evolution<span class="sub">Simulador de circuitos</span></h1>
+        </div>
       </div>
 
-      <h1 class="app-title logisim">Logisim Evolution</h1>
-    </div>
-
-    <p class="desc">
-      Propósito, ventajas y desventajas, guía de instalación, requisitos del
-      sistema y manual de funcionamiento de dos herramientas usadas en la
-      enseñanza de la informática y la electrónica digital.
-    </p>
-  </main>
+      <p class="desc">
+        Propósito, ventajas y desventajas, guía de instalación, requisitos del
+        sistema y manual de funcionamiento de dos herramientas usadas en la
+        enseñanza de la informática y la electrónica digital.
+      </p>
+    </main>
+  </div>
 
   <footer class="datasheet">
     <div class="field">
