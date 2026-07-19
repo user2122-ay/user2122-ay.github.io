@@ -6,74 +6,49 @@
 <title>Cisco IT Essentials: Virtual Desktop &amp; Logisim Evolution — Portada</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #0b1622;
-    --panel: #10222f;
-    --panel-line: #1c3a4d;
-    --copper: #e3a857;
-    --signal: #57f29a;
-    --text: #eaeff3;
-    --muted: #7c8ca1;
+    --paper: #fbfaf7;
+    --paper-line: #dfe3e6;
+    --ink: #1c2a35;
+    --muted: #6b7885;
+    --cisco: #146c94;
+    --logisim: #a4501c;
+    --panel-border: #e3e6e2;
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
-
   html,body{ height:100%; }
 
   body{
-    background: var(--bg);
-    color: var(--text);
+    background: var(--paper);
+    color: var(--ink);
     font-family: 'IBM Plex Sans', sans-serif;
     min-height: 100vh;
-    overflow-x: hidden;
   }
 
-  .board{
+  .sheet{
     position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: clamp(20px, 4vw, 56px);
+    padding: clamp(22px, 4vw, 56px);
     background-image:
-      radial-gradient(circle, rgba(124,140,161,0.14) 1px, transparent 1px);
-    background-size: 28px 28px;
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: -1px -1px;
+    opacity: 1;
   }
 
-  .traces{
+  .sheet::before{
+    content: "";
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
+    background: radial-gradient(ellipse at center, rgba(251,250,247,0.2) 0%, var(--paper) 72%);
     pointer-events: none;
-  }
-
-  .traces path{
-    fill: none;
-    stroke: var(--panel-line);
-    stroke-width: 2;
-    transition: stroke-dashoffset 1.3s cubic-bezier(.2,.7,.3,1), stroke 1.3s ease;
-  }
-
-  .traces path.on{
-    stroke: var(--copper);
-  }
-
-  .traces .pad{
-    fill: var(--panel-line);
-    transition: fill 1s ease;
-  }
-
-  .traces .pad.on{
-    fill: var(--signal);
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .traces path{ transition: none; }
-    .traces .pad{ transition: none; }
   }
 
   .topbar{
@@ -85,81 +60,94 @@
     flex-wrap: wrap;
     gap: 10px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: clamp(11px, 1.2vw, 13px);
+    font-size: clamp(10.5px, 1.1vw, 12.5px);
     letter-spacing: 0.14em;
     color: var(--muted);
     text-transform: uppercase;
   }
 
-  .topbar .ref{ color: var(--copper); }
+  .topbar .ref{ color: var(--ink); font-weight: 600; }
 
-  main.chip{
+  main.card{
     position: relative;
     z-index: 1;
     align-self: center;
-    width: min(880px, 100%);
-    margin: 40px 0;
-    padding: clamp(28px, 5vw, 64px) clamp(20px, 6vw, 72px);
-    background: linear-gradient(180deg, var(--panel), #0d1c27);
-    border: 1px solid var(--panel-line);
-    border-radius: 4px;
+    width: min(920px, 100%);
+    margin: 36px 0;
+    padding: clamp(34px, 6vw, 72px) clamp(24px, 7vw, 80px);
+    background: #ffffff;
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
     text-align: center;
-    box-shadow: 0 0 0 rgba(87,242,154,0);
-    transition: box-shadow 1.4s ease, border-color 1.4s ease;
-  }
-
-  main.chip.lit{
-    border-color: rgba(227,168,87,0.4);
-    box-shadow: 0 0 60px rgba(87,242,154,0.06), 0 0 0 1px rgba(227,168,87,0.08) inset;
+    box-shadow: 0 1px 3px rgba(28,42,53,0.04), 0 20px 44px -28px rgba(28,42,53,0.18);
   }
 
   .kicker{
     font-family: 'IBM Plex Mono', monospace;
-    font-size: clamp(11px, 1.3vw, 13px);
-    letter-spacing: 0.3em;
-    color: var(--copper);
-    text-transform: uppercase;
-    margin-bottom: 18px;
-  }
-
-  h1.title{
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700;
-    font-size: clamp(28px, 5.4vw, 50px);
-    line-height: 1.18;
-    letter-spacing: 0.01em;
-  }
-
-  h1.title .accent{
-    color: var(--signal);
-    text-shadow: 0 0 0 rgba(87,242,154,0);
-    transition: text-shadow 1.4s ease;
-  }
-
-  main.chip.lit h1.title .accent{
-    text-shadow: 0 0 26px rgba(87,242,154,0.45);
-  }
-
-  .ampersand{
-    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(10.5px, 1.2vw, 12.5px);
+    letter-spacing: 0.32em;
     color: var(--muted);
-    font-size: clamp(14px, 2vw, 18px);
-    margin: 10px 0;
+    text-transform: uppercase;
+    margin-bottom: 22px;
   }
 
-  h2.subtitle{
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 600;
-    font-size: clamp(20px, 3.6vw, 32px);
-    letter-spacing: 0.06em;
-    color: var(--text);
+  .titles{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
   }
+
+  h1.app-title{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: clamp(26px, 5vw, 44px);
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+  }
+
+  h1.app-title.cisco{ color: var(--cisco); }
+  h1.app-title.cisco .sub{
+    display: block;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.42em;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  .divider{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    max-width: 360px;
+    margin: 22px auto;
+  }
+
+  .divider .line{
+    flex: 1;
+    height: 1px;
+    background: var(--paper-line);
+  }
+
+  .divider .word{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  h1.app-title.logisim{ color: var(--logisim); }
 
   p.desc{
-    max-width: 56ch;
-    margin: 26px auto 0;
+    max-width: 58ch;
+    margin: 28px auto 0;
     font-size: clamp(14px, 1.6vw, 16px);
-    line-height: 1.6;
+    line-height: 1.65;
     color: var(--muted);
   }
 
@@ -167,84 +155,73 @@
     position: relative;
     z-index: 1;
     align-self: center;
-    width: min(880px, 100%);
+    width: min(920px, 100%);
     display: grid;
     grid-template-columns: 1.4fr 0.8fr 0.8fr;
-    border: 1px solid var(--panel-line);
-    border-radius: 4px;
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
     overflow: hidden;
+    background: #ffffff;
     font-family: 'IBM Plex Mono', monospace;
   }
 
   footer.datasheet .field{
-    padding: 16px 20px;
+    padding: 16px 22px;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    background: rgba(16,34,47,0.5);
   }
 
   footer.datasheet .field + .field{
-    border-left: 1px solid var(--panel-line);
+    border-left: 1px solid var(--panel-border);
   }
 
   footer.datasheet .label{
     font-size: 10px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--copper);
+    color: var(--muted);
   }
 
   footer.datasheet .value{
     font-size: clamp(13px, 1.6vw, 15px);
-    color: var(--text);
+    color: var(--ink);
+    font-weight: 500;
   }
 
   @media (max-width: 640px){
     footer.datasheet{ grid-template-columns: 1fr; }
-    footer.datasheet .field + .field{ border-left:none; border-top: 1px solid var(--panel-line); }
+    footer.datasheet .field + .field{ border-left:none; border-top: 1px solid var(--panel-border); }
   }
 </style>
 </head>
 <body>
 
-<div class="board">
-
-  <svg class="traces" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M 0 130 L 210 130 L 210 40 L 470 40 L 470 90"></path>
-    <path d="M 1600 190 L 1350 190 L 1350 300 L 1100 300 L 1100 190"></path>
-    <path d="M 0 770 L 280 770 L 280 860 L 520 860"></path>
-    <path d="M 1600 700 L 1310 700 L 1310 610 L 990 610 L 990 690"></path>
-    <path d="M 120 0 L 120 250 L 260 250"></path>
-    <path d="M 1470 0 L 1470 330 L 1310 330 L 1310 260"></path>
-    <path d="M 0 460 L 140 460"></path>
-    <path d="M 1600 460 L 1460 460"></path>
-    <path d="M 800 0 L 800 60"></path>
-    <path d="M 800 900 L 800 830"></path>
-
-    <rect class="pad" x="207" y="86" width="6" height="6"></rect>
-    <rect class="pad" x="1097" y="187" width="6" height="6"></rect>
-    <rect class="pad" x="517" y="857" width="6" height="6"></rect>
-    <rect class="pad" x="987" y="687" width="6" height="6"></rect>
-    <rect class="pad" x="257" y="247" width="6" height="6"></rect>
-    <rect class="pad" x="1307" y="257" width="6" height="6"></rect>
-    <rect class="pad" x="797" y="57" width="6" height="6"></rect>
-    <rect class="pad" x="797" y="827" width="6" height="6"></rect>
-  </svg>
+<div class="sheet">
 
   <div class="topbar">
     <span>Proyecto de investigación &middot; Informática</span>
-    <span class="ref">Ref. Tema&ndash;01</span>
+    <span class="ref">Tema #1</span>
   </div>
 
-  <main class="chip" id="chip">
-    <p class="kicker">Tema #1</p>
-    <h1 class="title">CISCO IT ESSENTIALS<br><span class="accent">VIRTUAL DESKTOP</span></h1>
-    <p class="ampersand">&amp;</p>
-    <h2 class="subtitle">LOGISIM EVOLUTION</h2>
+  <main class="card">
+    <p class="kicker">Investigación de herramientas de simulación</p>
+
+    <div class="titles">
+      <h1 class="app-title cisco">Cisco IT Essentials<span class="sub">Virtual Desktop</span></h1>
+
+      <div class="divider">
+        <span class="line"></span>
+        <span class="word">y</span>
+        <span class="line"></span>
+      </div>
+
+      <h1 class="app-title logisim">Logisim Evolution</h1>
+    </div>
+
     <p class="desc">
-      Investigación sobre el propósito, funcionamiento, ventajas, desventajas,
-      instalación y requisitos de dos herramientas de simulación usadas en la
+      Propósito, ventajas y desventajas, guía de instalación, requisitos del
+      sistema y manual de funcionamiento de dos herramientas usadas en la
       enseñanza de la informática y la electrónica digital.
     </p>
   </main>
@@ -267,40 +244,5 @@
 
 </div>
 
-<script>
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const paths = document.querySelectorAll('.traces path');
-  const pads = document.querySelectorAll('.traces .pad');
-  const chip = document.getElementById('chip');
-
-  if(reduce){
-    paths.forEach(p => p.classList.add('on'));
-    pads.forEach(p => p.classList.add('on'));
-    chip.classList.add('lit');
-  } else {
-    paths.forEach((p) => {
-      const len = p.getTotalLength();
-      p.style.strokeDasharray = len;
-      p.style.strokeDashoffset = len;
-    });
-
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        paths.forEach((p, i) => {
-          setTimeout(() => {
-            p.style.strokeDashoffset = 0;
-            p.classList.add('on');
-          }, i * 90);
-        });
-        pads.forEach((p, i) => {
-          setTimeout(() => p.classList.add('on'), 500 + i * 90);
-        });
-        setTimeout(() => chip.classList.add('lit'), 900 + paths.length * 90);
-      }, 200);
-    });
-  }
-</script>
-
 </body>
 </html>
-
