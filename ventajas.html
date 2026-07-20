@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ventajas y Desventajas — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #f8f7f3;
+    --paper-line: #e2e5e0;
+    --ink: #182430;
+    --muted: #6e7a86;
+    --cisco: #0f6690;
+    --cisco-soft: #e7f1f6;
+    --logisim: #a04d1a;
+    --logisim-soft: #f7ece2;
+    --panel-border: #e5e7e1;
+    --shadow: 28, 42, 53;
+    --good: #2f7d4f;
+    --good-soft: #e8f4ec;
+    --warn: #a3401e;
+    --warn-soft: #faeeea;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size: 44px 44px;
+    background-position: -1px -1px;
+  }
+
+  .page{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(22px, 4vw, 56px);
+  }
+
+  .back-link, .next-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.2s ease, gap 0.2s ease;
+  }
+  .back-link{ align-self: flex-start; margin-bottom: clamp(30px, 6vw, 64px); }
+  .next-link{ margin-top: 44px; }
+  .back-link:hover, .back-link:focus-visible,
+  .next-link:hover, .next-link:focus-visible{ color: var(--ink); gap: 12px; }
+  .back-link svg, .next-link svg{ width: 14px; height: 14px; }
+
+  .section-head{
+    width: min(980px, 100%);
+    text-align: center;
+    margin-bottom: clamp(30px, 5vw, 56px);
+  }
+
+  .section-eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  h1.section-title{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: clamp(26px, 4.4vw, 40px);
+    margin-top: 10px;
+    color: var(--ink);
+  }
+
+  .app-grid{
+    width: min(980px, 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(20px, 3vw, 32px);
+  }
+
+  .app-card{
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: clamp(26px, 4vw, 36px);
+    box-shadow: 0 1px 2px rgba(var(--shadow),0.05), 0 18px 34px -24px rgba(var(--shadow),0.22);
+  }
+
+  .app-card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:4px;
+    border-radius: 8px 8px 0 0;
+  }
+  .app-card.cisco::before{ background: var(--cisco); }
+  .app-card.logisim::before{ background: var(--logisim); }
+
+  .app-card-head{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .app-card-head .icon-wrap{
+    width: 46px; height: 46px; flex-shrink: 0;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .app-card-head .icon-wrap.cisco{ background: var(--cisco-soft); }
+  .app-card-head .icon-wrap.logisim{ background: var(--logisim-soft); }
+  .app-card-head .icon-wrap svg{ width: 24px; height: 24px; }
+
+  .app-card-head h2{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: clamp(17px, 2.2vw, 20px);
+    line-height: 1.3;
+    text-align: left;
+  }
+  .app-card.cisco h2{ color: var(--cisco); }
+  .app-card.logisim h2{ color: var(--logisim); }
+
+  .field-label{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .field-label:not(:first-of-type){ margin-top: 26px; }
+
+  .field-label .dot{
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .field-label.pro .dot{ background: var(--good); }
+  .field-label.con .dot{ background: var(--warn); }
+
+  ul.point-list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  ul.point-list li{
+    position: relative;
+    padding-left: 22px;
+    text-align: left;
+    font-size: clamp(13.5px, 1.5vw, 15px);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  ul.point-list li::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  .pro-list li::before{ background: var(--good-soft); border: 1.5px solid var(--good); }
+  .con-list li::before{ background: var(--warn-soft); border: 1.5px solid var(--warn); }
+
+  @media (max-width: 760px){
+    .app-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <a class="back-link" href="introduccion.html">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Introducci&oacute;n y Prop&oacute;sito
+  </a>
+
+  <div class="section-head">
+    <p class="section-eyebrow">Tema #1 &middot; Punto 3</p>
+    <h1 class="section-title">Ventajas y Desventajas</h1>
+  </div>
+
+  <div class="app-grid">
+
+    <article class="app-card cisco">
+      <div class="app-card-head">
+        <span class="icon-wrap cisco">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="9" width="36" height="24" rx="2" stroke="#0f6690" stroke-width="2.4"/>
+            <path d="M18 39h12" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M24 33v6" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M12 16h10M12 21h16M12 26h13" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <h2>Cisco IT Essentials<br>Virtual Desktop</h2>
+      </div>
+
+      <p class="field-label pro"><span class="dot"></span>Ventajas</p>
+      <ul class="point-list pro-list">
+        <li>Permite practicar el armado y desarmado de un equipo sin riesgo de da&ntilde;ar hardware real.</li>
+        <li>Es de acceso gratuito para estudiantes inscritos en Cisco Networking Academy.</li>
+        <li>Su interfaz 3D interactiva facilita identificar visualmente cada componente y su ubicaci&oacute;n.</li>
+      </ul>
+
+      <p class="field-label con"><span class="dot"></span>Limitaciones t&eacute;cnicas</p>
+      <ul class="point-list con-list">
+        <li>Requiere registro previo en la plataforma de Cisco Networking Academy para poder descargarlo.</li>
+        <li>Al ser una simulaci&oacute;n, no reproduce fallas reales de hardware (cortos, sobrecalentamiento, piezas da&ntilde;adas), por lo que no sustituye del todo la pr&aacute;ctica f&iacute;sica.</li>
+      </ul>
+    </article>
+
+    <article class="app-card logisim">
+      <div class="app-card-head">
+        <span class="icon-wrap logisim">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 14v20" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#a04d1a" stroke-width="2.4" stroke-linejoin="round"/>
+            <path d="M6 18h6M6 30h6" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M32 24h10" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="35" cy="24" r="1.6" fill="#a04d1a"/>
+          </svg>
+        </span>
+        <h2>Logisim Evolution</h2>
+      </div>
+
+      <p class="field-label pro"><span class="dot"></span>Ventajas</p>
+      <ul class="point-list pro-list">
+        <li>Es de c&oacute;digo abierto y completamente gratuito.</li>
+        <li>Es multiplataforma: funciona en Windows, macOS y Linux al estar basado en Java.</li>
+        <li>Permite simular circuitos l&oacute;gicos complejos en tiempo real, sin necesidad de componentes electr&oacute;nicos f&iacute;sicos.</li>
+      </ul>
+
+      <p class="field-label con"><span class="dot"></span>Limitaciones t&eacute;cnicas</p>
+      <ul class="point-list con-list">
+        <li>Requiere tener instalado el entorno de ejecuci&oacute;n de Java (JRE) para funcionar correctamente.</li>
+        <li>Al ser una simulaci&oacute;n, no considera variables f&iacute;sicas reales como ruido el&eacute;ctrico, temperatura o tolerancias de los componentes.</li>
+      </ul>
+    </article>
+
+  </div>
+
+  <a class="next-link" href="guia-instalacion.html">
+    Gu&iacute;a de Descarga e Instalaci&oacute;n
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
+</div>
+
+</body>
+</html>
+
