@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Funcionamiento — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #f8f7f3;
+    --paper-line: #e2e5e0;
+    --ink: #182430;
+    --muted: #6e7a86;
+    --cisco: #0f6690;
+    --cisco-soft: #e7f1f6;
+    --logisim: #a04d1a;
+    --logisim-soft: #f7ece2;
+    --panel-border: #e5e7e1;
+    --shadow: 28, 42, 53;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size: 44px 44px;
+    background-position: -1px -1px;
+  }
+
+  .page{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(22px, 4vw, 56px);
+  }
+
+  .back-link, .next-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.2s ease, gap 0.2s ease;
+  }
+  .back-link{ align-self: flex-start; margin-bottom: clamp(30px, 6vw, 64px); }
+  .next-link{ margin-top: 44px; }
+  .back-link:hover, .back-link:focus-visible,
+  .next-link:hover, .next-link:focus-visible{ color: var(--ink); gap: 12px; }
+  .back-link svg, .next-link svg{ width: 14px; height: 14px; }
+
+  .section-head{
+    width: min(980px, 100%);
+    text-align: center;
+    margin-bottom: clamp(30px, 5vw, 56px);
+  }
+
+  .section-eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  h1.section-title{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: clamp(24px, 4vw, 38px);
+    margin-top: 10px;
+    color: var(--ink);
+  }
+
+  .app-block{
+    width: min(980px, 100%);
+    margin-bottom: clamp(36px, 6vw, 60px);
+  }
+
+  .app-block-head{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .app-block-head .icon-wrap{
+    width: 42px; height: 42px; flex-shrink: 0;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .app-block-head .icon-wrap.cisco{ background: var(--cisco-soft); }
+  .app-block-head .icon-wrap.logisim{ background: var(--logisim-soft); }
+  .app-block-head .icon-wrap svg{ width: 22px; height: 22px; }
+
+  .app-block-head h2{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: clamp(18px, 2.4vw, 22px);
+  }
+  .app-block.cisco h2{ color: var(--cisco); }
+  .app-block.logisim h2{ color: var(--logisim); }
+
+  .gallery{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(14px, 2.4vw, 22px);
+  }
+
+  .gcard{
+    background: #ffffff;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(var(--shadow),0.05), 0 14px 26px -20px rgba(var(--shadow),0.2);
+  }
+
+  .gcard .art{
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .app-block.cisco .gcard .art{ background: linear-gradient(180deg, var(--cisco-soft), #ffffff); }
+  .app-block.logisim .gcard .art{ background: linear-gradient(180deg, var(--logisim-soft), #ffffff); }
+  .gcard .art svg{ width: 46%; height: 46%; }
+
+  .gcard .cap{
+    padding: 12px 14px 16px;
+  }
+
+  .gcard .step-no{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .gcard .step-title{
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: clamp(12.5px, 1.5vw, 14px);
+    margin: 4px 0 4px;
+    color: var(--ink);
+  }
+
+  .gcard .step-desc{
+    font-size: clamp(11.5px, 1.35vw, 12.5px);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  @media (max-width: 700px){
+    .gallery{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <a class="back-link" href="requisitos.html">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Requisitos y Licenciamiento
+  </a>
+
+  <div class="section-head">
+    <p class="section-eyebrow">Tema #1 &middot; Punto 6</p>
+    <h1 class="section-title">Manual de Funcionamiento B&aacute;sico</h1>
+  </div>
+
+  <div class="app-block cisco">
+    <div class="app-block-head">
+      <span class="icon-wrap cisco">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="9" width="36" height="24" rx="2" stroke="#0f6690" stroke-width="2.4"/>
+          <path d="M18 39h12" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M24 33v6" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M12 16h10M12 21h16M12 26h13" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <h2>Cisco IT Essentials Virtual Desktop</h2>
+    </div>
+
+    <div class="gallery">
+      <div class="gcard">
+        <div class="art">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 8v30" stroke="#0f6690" stroke-width="3" stroke-linecap="round"/>
+            <path d="M20 26l12 14 12-14" stroke="#0f6690" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 48h36" stroke="#0f6690" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <p class="step-no">Paso 1</p>
+          <p class="step-title">Descargar e instalar</p>
+          <p class="step-desc">Obtener el archivo desde Cisco Networking Academy y descomprimirlo.</p>
+        </div>
+      </div>
+
+      <div class="gcard">
+        <div class="art">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="14" width="44" height="30" rx="3" stroke="#0f6690" stroke-width="3"/>
+            <path d="M26 26l14 6-14 6z" fill="#0f6690"/>
+            <path d="M22 50h20" stroke="#0f6690" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <p class="step-no">Paso 2</p>
+          <p class="step-title">Abrir la actividad</p>
+          <p class="step-desc">Ejecutar el archivo principal para iniciar el escritorio virtual.</p>
+        </div>
+      </div>
+
+      <div class="gcard">
+        <div class="art">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="10" width="26" height="18" rx="2" stroke="#0f6690" stroke-width="3"/>
+            <rect x="42" y="34" width="14" height="14" rx="2" stroke="#0f6690" stroke-width="2.4" stroke-dasharray="3 3"/>
+            <path d="M25 28v8M12 44h26" stroke="#0f6690" stroke-width="3" stroke-linecap="round"/>
+            <path d="M38 41h4" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <p class="step-no">Paso 3</p>
+          <p class="step-title">Ensamblar el equipo</p>
+          <p class="step-desc">Arrastrar cada componente a su lugar dentro de la torre o laptop virtual.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-block logisim">
+    <div class="app-block-head">
+      <span class="icon-wrap logisim">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 14v20" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#a04d1a" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M6 18h6M6 30h6" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M32 24h10" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="35" cy="24" r="1.6" fill="#a04d1a"/>
+        </svg>
+      </span>
+      <h2>Logisim Evolution</h2>
+    </div>
+
+    <div class="gallery">
+      <div class="gcard">
+        <div class="art">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 8v30" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
+            <path d="M20 26l12 14 12-14" stroke="#a04d1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 48h36" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <p class="step-no">Paso 1</p>
+          <p class="step-title">Descargar e instalar</p>
+          <p class="step-desc">Bajar el instalador oficial desde GitHub y ejecutarlo.</p>
+        </div>
+      </div>
+
+      <div class="gcard">
+        <div class="art">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="14" width="44" height="30" rx="3" stroke="#a04d1a" stroke-width="3"/>
+            <path d="M26 26l14 6-14 6z" fill="#a04d1a"/>
+            <path d="M22 50h20" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <p class="step-no">Paso 2</p>
+          <p class="step-title">Abrir el programa</p>
+          <p class="step-desc">Iniciar Logisim Evolution desde el men&uacute; de inicio del sistema.</p>
+        </div>
+      </div>
+
+      <div class="gcard">
+        <div class="art">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 22h14a8 8 0 0 1 0 16h-14" stroke="#a04d1a" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M4 26h6M4 34h6" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
+            <path d="M32 30h10" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="48" cy="30" r="4" stroke="#a04d1a" stroke-width="3"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <p class="step-no">Paso 3</p>
+          <p class="step-title">Armar un circuito</p>
+          <p class="step-desc">Arrastrar compuertas al lienzo y conectarlas para simular el circuito.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a class="next-link" href="videos.html">
+    Videos de la Instalaci&oacute;n del Equipo
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
+</div>
+
+</body>
+</html>
+
