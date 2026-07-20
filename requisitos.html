@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Requisitos y Licenciamiento — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #f8f7f3;
+    --paper-line: #e2e5e0;
+    --ink: #182430;
+    --muted: #6e7a86;
+    --cisco: #0f6690;
+    --cisco-soft: #e7f1f6;
+    --logisim: #a04d1a;
+    --logisim-soft: #f7ece2;
+    --panel-border: #e5e7e1;
+    --shadow: 28, 42, 53;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size: 44px 44px;
+    background-position: -1px -1px;
+  }
+
+  .page{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(22px, 4vw, 56px);
+  }
+
+  .back-link, .next-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.2s ease, gap 0.2s ease;
+  }
+  .back-link{ align-self: flex-start; margin-bottom: clamp(30px, 6vw, 64px); }
+  .next-link{ margin-top: 44px; }
+  .back-link:hover, .back-link:focus-visible,
+  .next-link:hover, .next-link:focus-visible{ color: var(--ink); gap: 12px; }
+  .back-link svg, .next-link svg{ width: 14px; height: 14px; }
+
+  .section-head{
+    width: min(980px, 100%);
+    text-align: center;
+    margin-bottom: clamp(30px, 5vw, 56px);
+  }
+
+  .section-eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  h1.section-title{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: clamp(24px, 4vw, 38px);
+    margin-top: 10px;
+    color: var(--ink);
+  }
+
+  .app-grid{
+    width: min(980px, 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(20px, 3vw, 32px);
+  }
+
+  .app-card{
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: clamp(26px, 4vw, 34px);
+    box-shadow: 0 1px 2px rgba(var(--shadow),0.05), 0 18px 34px -24px rgba(var(--shadow),0.22);
+  }
+
+  .app-card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:4px;
+    border-radius: 8px 8px 0 0;
+  }
+  .app-card.cisco::before{ background: var(--cisco); }
+  .app-card.logisim::before{ background: var(--logisim); }
+
+  .app-card-head{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .app-card-head .icon-wrap{
+    width: 44px; height: 44px; flex-shrink: 0;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .app-card-head .icon-wrap.cisco{ background: var(--cisco-soft); }
+  .app-card-head .icon-wrap.logisim{ background: var(--logisim-soft); }
+  .app-card-head .icon-wrap svg{ width: 22px; height: 22px; }
+
+  .app-card-head h2{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: clamp(16px, 2vw, 19px);
+    line-height: 1.3;
+    text-align: left;
+  }
+  .app-card.cisco h2{ color: var(--cisco); }
+  .app-card.logisim h2{ color: var(--logisim); }
+
+  .field-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .field-label:not(:first-of-type){ margin-top: 26px; }
+
+  ul.plain-list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  ul.plain-list li{
+    position: relative;
+    padding-left: 18px;
+    text-align: left;
+    font-size: clamp(13.5px, 1.5vw, 15px);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  ul.plain-list li::before{
+    content: "";
+    position: absolute;
+    left: 0; top: 0.6em;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .app-card.cisco ul.plain-list li::before{ background: var(--cisco); }
+  .app-card.logisim ul.plain-list li::before{ background: var(--logisim); }
+
+  p.license-text{
+    text-align: left;
+    font-size: clamp(13.5px, 1.5vw, 15px);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .badge{
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  .app-card.cisco .badge{ background: var(--cisco-soft); color: var(--cisco); }
+  .app-card.logisim .badge{ background: var(--logisim-soft); color: var(--logisim); }
+
+  @media (max-width: 760px){
+    .app-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <a class="back-link" href="guia-instalacion.html">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Gu&iacute;a de Descarga e Instalaci&oacute;n
+  </a>
+
+  <div class="section-head">
+    <p class="section-eyebrow">Tema #1 &middot; Punto 5</p>
+    <h1 class="section-title">Requisitos del Sistema y Licenciamiento</h1>
+  </div>
+
+  <div class="app-grid">
+
+    <article class="app-card cisco">
+      <div class="app-card-head">
+        <span class="icon-wrap cisco">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="9" width="36" height="24" rx="2" stroke="#0f6690" stroke-width="2.4"/>
+            <path d="M18 39h12" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M24 33v6" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M12 16h10M12 21h16M12 26h13" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <h2>Cisco IT Essentials<br>Virtual Desktop</h2>
+      </div>
+
+      <p class="field-label">Requisitos del sistema</p>
+      <ul class="plain-list">
+        <li>Windows 7/8/10/11 o macOS con navegador compatible.</li>
+        <li>Google Chrome (recomendado por Cisco para esta actividad).</li>
+        <li>M&iacute;nimo 2 GB de RAM y 200 MB de espacio libre.</li>
+      </ul>
+
+      <p class="field-label">Licenciamiento</p>
+      <p class="license-text">Uso gratuito, pero restringido a estudiantes y docentes inscritos oficialmente en Cisco Networking Academy; no es un software de distribuci&oacute;n p&uacute;blica independiente.</p>
+      <span class="badge">Acceso restringido &middot; gratuito</span>
+    </article>
+
+    <article class="app-card logisim">
+      <div class="app-card-head">
+        <span class="icon-wrap logisim">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 14v20" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#a04d1a" stroke-width="2.4" stroke-linejoin="round"/>
+            <path d="M6 18h6M6 30h6" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M32 24h10" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="35" cy="24" r="1.6" fill="#a04d1a"/>
+          </svg>
+        </span>
+        <h2>Logisim Evolution</h2>
+      </div>
+
+      <p class="field-label">Requisitos del sistema</p>
+      <ul class="plain-list">
+        <li>Java 21 o superior (incluido en los instaladores oficiales).</li>
+        <li>Compatible con Windows, macOS y Linux.</li>
+        <li>4 GB de RAM recomendados y 100 MB de espacio en disco.</li>
+      </ul>
+
+      <p class="field-label">Licenciamiento</p>
+      <p class="license-text">Software libre y de c&oacute;digo abierto, bajo la Licencia P&uacute;blica General de GNU (GPL&#8209;3.0); gratuito para uso educativo, personal o institucional sin restricciones.</p>
+      <span class="badge">Software libre &middot; GPL-3.0</span>
+    </article>
+
+  </div>
+
+  <a class="next-link" href="manual.html">
+    Manual de Funcionamiento B&aacute;sico
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
+</div>
+
+</body>
+</html>
+
