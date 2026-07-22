@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Videos de Instalaci&oacute;n — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
+<title>Pon a Prueba lo Aprendido — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper: #f8f7f3;
@@ -19,6 +19,10 @@
     --logisim-soft: #f7ece2;
     --panel-border: #e5e7e1;
     --shadow: 28, 42, 53;
+    --good: #2f7d4f;
+    --good-soft: #e8f4ec;
+    --bad: #b23a2e;
+    --bad-soft: #fbeae7;
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
@@ -44,10 +48,12 @@
     padding: clamp(22px, 4vw, 56px);
   }
 
-  .back-link, .next-link{
+  .back-link{
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    align-self: flex-start;
+    margin-bottom: clamp(26px, 5vw, 48px);
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12.5px;
     letter-spacing: 0.14em;
@@ -56,16 +62,13 @@
     color: var(--muted);
     transition: color 0.2s ease, gap 0.2s ease;
   }
-  .back-link{ align-self: flex-start; margin-bottom: clamp(30px, 6vw, 64px); }
-  .next-link{ margin-top: 44px; }
-  .back-link:hover, .back-link:focus-visible,
-  .next-link:hover, .next-link:focus-visible{ color: var(--ink); gap: 12px; }
-  .back-link svg, .next-link svg{ width: 14px; height: 14px; }
+  .back-link:hover{ color: var(--ink); gap: 12px; }
+  .back-link svg{ width: 14px; height: 14px; }
 
   .section-head{
-    width: min(980px, 100%);
+    width: min(680px, 100%);
     text-align: center;
-    margin-bottom: clamp(30px, 5vw, 56px);
+    margin-bottom: clamp(26px, 5vw, 44px);
   }
 
   .section-eyebrow{
@@ -79,99 +82,229 @@
   h1.section-title{
     font-family: 'Source Serif 4', serif;
     font-weight: 600;
-    font-size: clamp(26px, 4.4vw, 40px);
+    font-size: clamp(24px, 4vw, 34px);
     margin-top: 10px;
     color: var(--ink);
   }
 
   p.section-desc{
-    max-width: 60ch;
-    margin: 18px auto 0;
-    font-size: clamp(13.5px, 1.5vw, 15px);
-    line-height: 1.65;
+    max-width: 46ch;
+    margin: 14px auto 0;
+    font-size: 14px;
+    line-height: 1.6;
     color: var(--muted);
   }
 
-  .app-grid{
-    width: min(980px, 100%);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(20px, 3vw, 32px);
-  }
-
-  .app-card{
+  .card{
     position: relative;
+    width: min(680px, 100%);
     background: #ffffff;
     border: 1px solid var(--panel-border);
-    border-radius: 8px;
-    padding: clamp(22px, 3.5vw, 30px);
-    box-shadow: 0 1px 2px rgba(var(--shadow),0.05), 0 18px 34px -24px rgba(var(--shadow),0.22);
+    border-radius: 10px;
+    padding: clamp(26px, 5vw, 40px);
+    box-shadow: 0 1px 2px rgba(var(--shadow),0.05), 0 24px 44px -28px rgba(var(--shadow),0.24);
+    overflow: hidden;
   }
 
-  .app-card::before{
+  .card::before{
     content:"";
     position:absolute; top:0; left:0; right:0; height:4px;
-    border-radius: 8px 8px 0 0;
+    background: linear-gradient(90deg, var(--cisco), var(--logisim));
   }
-  .app-card.cisco::before{ background: var(--cisco); }
-  .app-card.logisim::before{ background: var(--logisim); }
 
-  .app-card-head{
+  /* progress dots */
+  .progress-row{
     display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 18px;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
   }
-
-  .app-card-head .icon-wrap{
-    width: 44px; height: 44px; flex-shrink: 0;
+  .progress-row .dot{
+    width: 9px; height: 9px;
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    background: var(--paper-line);
+    transition: background 0.25s ease, transform 0.25s ease;
   }
-  .app-card-head .icon-wrap.cisco{ background: var(--cisco-soft); }
-  .app-card-head .icon-wrap.logisim{ background: var(--logisim-soft); }
-  .app-card-head .icon-wrap svg{ width: 22px; height: 22px; }
+  .progress-row .dot.done{ background: var(--good); }
+  .progress-row .dot.active{ background: var(--ink); transform: scale(1.3); }
 
-  .app-card-head h2{
+  .q-count{
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .q-text{
+    text-align: center;
     font-family: 'Source Serif 4', serif;
     font-weight: 600;
-    font-size: clamp(16px, 2vw, 19px);
-    line-height: 1.3;
-    text-align: left;
-  }
-  .app-card.cisco h2{ color: var(--cisco); }
-  .app-card.logisim h2{ color: var(--logisim); }
-
-  .video-frame{
-    position: relative;
-    border-radius: 6px;
-    overflow: hidden;
-    aspect-ratio: 16/9;
-    border: 1px solid var(--panel-border);
-    background: #0d1418;
+    font-size: clamp(18px, 3vw, 23px);
+    line-height: 1.4;
+    color: var(--ink);
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
   }
 
-  .video-frame iframe{
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
+  .choices{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 26px;
   }
 
-  .video-caption{
-    margin-top: 10px;
+  .choice-btn{
+    padding: 18px 10px;
+    border-radius: 8px;
+    border: 2px solid var(--panel-border);
+    background: var(--paper);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .choice-btn:hover{ border-color: var(--ink); transform: translateY(-1px); }
+  .choice-btn:active{ transform: translateY(0); }
+  .choice-btn.yes{ color: var(--good); }
+  .choice-btn.no{ color: var(--bad); }
+  .choice-btn.yes.picked{ background: var(--good-soft); border-color: var(--good); }
+  .choice-btn.no.picked{ background: var(--bad-soft); border-color: var(--bad); }
+
+  .nav-row{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 26px;
+  }
+
+  .nav-btn{
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: none;
+    border: none;
     color: var(--muted);
-    text-align: left;
-    line-height: 1.5;
+    cursor: pointer;
+    padding: 6px 4px;
+  }
+  .nav-btn:hover{ color: var(--ink); }
+  .nav-btn:disabled{ opacity: 0; pointer-events: none; }
+
+  /* results */
+  .results{ display:none; text-align:center; }
+  .results.show{ display:block; }
+  .quiz-body.hide{ display:none; }
+
+  .score-ring{
+    width: 150px; height: 150px;
+    margin: 0 auto 20px;
+    position: relative;
+  }
+  .score-ring svg{ width: 100%; height: 100%; transform: rotate(-90deg); }
+  .score-ring .bg{ fill:none; stroke: var(--paper-line); stroke-width: 10; }
+  .score-ring .fg{ fill:none; stroke: var(--good); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(.2,.8,.3,1); }
+  .score-ring .label{
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .score-ring .label .num{ font-family:'Source Serif 4',serif; font-weight:700; font-size: 34px; }
+  .score-ring .label .den{ font-family:'IBM Plex Mono',monospace; font-size: 12px; color: var(--muted); }
+
+  .grade-title{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .grade-sub{
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 26px;
   }
 
-  .video-caption a{ color: var(--muted); }
+  .review-list{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+  .review-item{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: var(--paper);
+    border: 1px solid var(--panel-border);
+  }
+  .review-item .mark{
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 12px; font-weight:700; color:#fff;
+    margin-top: 1px;
+  }
+  .review-item.correct .mark{ background: var(--good); }
+  .review-item.wrong .mark{ background: var(--bad); }
+  .review-item p{ font-size: 13px; line-height: 1.5; }
+  .review-item .correct-note{ color: var(--muted); font-size: 11.5px; margin-top: 2px; }
 
-  @media (max-width: 760px){
-    .app-grid{ grid-template-columns: 1fr; }
+  .action-row{
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .btn{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1px solid var(--panel-border);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .btn.primary{ background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  .history{
+    width: min(680px, 100%);
+    margin-top: 24px;
+  }
+  .history h3{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .history-row{
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 8px 4px;
+    border-bottom: 1px dashed var(--panel-border);
+    color: var(--ink);
+  }
+  .history-row span:last-child{ color: var(--muted); font-family:'IBM Plex Mono',monospace; font-size: 11.5px; }
+
+  @media (max-width: 480px){
+    .choices{ grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
@@ -179,69 +312,225 @@
 
 <div class="page">
 
-  <a class="back-link" href="manual.html">
+  <a class="back-link" href="videos.html">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Manual de Funcionamiento B&aacute;sico
+    Videos de la Instalaci&oacute;n
   </a>
 
   <div class="section-head">
-    <p class="section-eyebrow">Tema #1 &middot; &Uacute;ltimo punto</p>
-    <h1 class="section-title">Videos de la Instalaci&oacute;n del Equipo</h1>
-    <p class="section-desc">
-      Tutoriales en video que muestran paso a paso c&oacute;mo instalar y
-      utilizar cada herramienta.
-    </p>
+    <p class="section-eyebrow">Bonus &middot; Autoevaluaci&oacute;n</p>
+    <h1 class="section-title">Pon a Prueba lo Aprendido</h1>
+    <p class="section-desc">15 preguntas de S&iacute;/No sobre Cisco IT Essentials Virtual Desktop y Logisim Evolution. Tu resultado se guarda autom&aacute;ticamente en este dispositivo.</p>
   </div>
 
-  <div class="app-grid">
+  <div class="card">
 
-    <article class="app-card cisco">
-      <div class="app-card-head">
-        <span class="icon-wrap cisco">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="6" y="9" width="36" height="24" rx="2" stroke="#0f6690" stroke-width="2.4"/>
-            <path d="M18 39h12" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M24 33v6" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M12 16h10M12 21h16M12 26h13" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <h2>Cisco IT Essentials<br>Virtual Desktop</h2>
+    <div class="quiz-body" id="quizBody">
+      <div class="progress-row" id="progressRow"></div>
+      <p class="q-count" id="qCount">Pregunta 1 de 15</p>
+      <p class="q-text" id="qText"></p>
+
+      <div class="choices">
+        <button class="choice-btn yes" id="btnYes" onclick="answer(true)">S&Iacute;</button>
+        <button class="choice-btn no" id="btnNo" onclick="answer(false)">NO</button>
       </div>
 
-      <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/odPRhroEoq0" title="Tutorial Ensamblaje de PC usando Cisco IT Essentials Virtual Desktop" allowfullscreen loading="lazy"></iframe>
+      <div class="nav-row">
+        <button class="nav-btn" id="prevBtn" onclick="goPrev()">&larr; Anterior</button>
+        <span></span>
       </div>
-      <p class="video-caption">Tutorial Ensamblaje de PC usando Cisco IT Essentials Virtual Desktop &mdash; YouTube</p>
-    </article>
+    </div>
 
-    <article class="app-card logisim">
-      <div class="app-card-head">
-        <span class="icon-wrap logisim">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 14v20" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#a04d1a" stroke-width="2.4" stroke-linejoin="round"/>
-            <path d="M6 18h6M6 30h6" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M32 24h10" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-            <circle cx="35" cy="24" r="1.6" fill="#a04d1a"/>
-          </svg>
-        </span>
-        <h2>Logisim Evolution</h2>
+    <div class="results" id="results">
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="bg" cx="60" cy="60" r="52"></circle>
+          <circle class="fg" id="scoreArc" cx="60" cy="60" r="52" stroke-dasharray="327" stroke-dashoffset="327"></circle>
+        </svg>
+        <div class="label">
+          <span class="num" id="scoreNum">0</span>
+          <span class="den" id="denLabel">de 15</span>
+        </div>
       </div>
+      <p class="grade-title" id="gradeTitle"></p>
+      <p class="grade-sub" id="gradeSub"></p>
 
-      <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/AqlIazijvqw" title="Como instalar Logisim Evolution en Windows 10" allowfullscreen loading="lazy"></iframe>
+      <div class="review-list" id="reviewList"></div>
+
+      <div class="action-row">
+        <button class="btn primary" onclick="restart()">Intentar de nuevo</button>
       </div>
-      <p class="video-caption">C&oacute;mo instalar Logisim Evolution en Windows 10 &mdash; YouTube</p>
-    </article>
+    </div>
 
   </div>
 
-  <a class="next-link" href="quiz.html">
-    Pon a Prueba lo Aprendido
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </a>
+  <div class="history" id="historyBox" style="display:none;">
+    <h3>Tus intentos anteriores</h3>
+    <div id="historyList"></div>
+  </div>
 
 </div>
+
+<script>
+  const questions = [
+    { text: "Logisim Evolution es de c\u00f3digo abierto y completamente gratuito.", answer: true },
+    { text: "Cisco IT Essentials Virtual Desktop requiere una tarjeta gr\u00e1fica dedicada de alta gama.", answer: false },
+    { text: "Logisim Evolution necesita tener Java instalado para funcionar.", answer: true },
+    { text: "Cisco IT Essentials Virtual Desktop puede simular fallas reales de hardware, como cortocircuitos.", answer: false },
+    { text: "Logisim Evolution es multiplataforma: funciona en Windows, macOS y Linux.", answer: true },
+    { text: "Cisco IT Essentials Virtual Desktop se puede descargar libremente desde cualquier sitio web sin restricciones.", answer: false },
+    { text: "Logisim Evolution est\u00e1 licenciado bajo la GPL-3.0 (software libre).", answer: true },
+    { text: "Cisco IT Essentials Virtual Desktop permite practicar el ensamblaje de una PC sin usar hardware real.", answer: true },
+    { text: "Cisco IT Essentials Virtual Desktop forma parte del programa Cisco Networking Academy.", answer: true },
+    { text: "Logisim Evolution permite simular circuitos l\u00f3gicos como compuertas AND, OR y NOT.", answer: true },
+    { text: "Para instalar Logisim Evolution siempre hay que instalar Java por separado, incluso usando el instalador oficial de Windows.", answer: false },
+    { text: "El uso de Cisco IT Essentials Virtual Desktop es completamente gratuito y sin ning\u00fan tipo de restricci\u00f3n de acceso.", answer: false },
+    { text: "Logisim Evolution se debe descargar preferiblemente desde sitios espejo en vez de su repositorio oficial.", answer: false },
+    { text: "Una limitaci\u00f3n de Logisim Evolution es que no considera variables f\u00edsicas reales como el ruido el\u00e9ctrico o la temperatura.", answer: true },
+    { text: "El manual de funcionamiento b\u00e1sico del sitio incluye una galer\u00eda ilustrada con los pasos de instalaci\u00f3n y uso.", answer: true },
+  ];
+
+  let current = 0;
+  let userAnswers = new Array(questions.length).fill(null);
+
+  const progressRow = document.getElementById('progressRow');
+  const qCount = document.getElementById('qCount');
+  const qText = document.getElementById('qText');
+  const btnYes = document.getElementById('btnYes');
+  const btnNo = document.getElementById('btnNo');
+  const prevBtn = document.getElementById('prevBtn');
+
+  function buildDots(){
+    progressRow.innerHTML = '';
+    questions.forEach((_, i) => {
+      const d = document.createElement('span');
+      d.className = 'dot';
+      progressRow.appendChild(d);
+    });
+  }
+
+  function renderDots(){
+    const dots = progressRow.querySelectorAll('.dot');
+    dots.forEach((d, i) => {
+      d.classList.remove('active','done');
+      if (userAnswers[i] !== null) d.classList.add('done');
+      if (i === current) d.classList.add('active');
+    });
+  }
+
+  function renderQuestion(){
+    qCount.textContent = `Pregunta ${current + 1} de ${questions.length}`;
+    qText.textContent = questions[current].text;
+    btnYes.classList.remove('picked');
+    btnNo.classList.remove('picked');
+    const a = userAnswers[current];
+    if (a === true) btnYes.classList.add('picked');
+    if (a === false) btnNo.classList.add('picked');
+    prevBtn.disabled = current === 0;
+    renderDots();
+  }
+
+  function answer(val){
+    userAnswers[current] = val;
+    renderQuestion();
+    setTimeout(() => {
+      if (current < questions.length - 1){
+        current++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }, 220);
+  }
+
+  function goPrev(){
+    if (current > 0){
+      current--;
+      renderQuestion();
+    }
+  }
+
+  function showResults(){
+    document.getElementById('quizBody').classList.add('hide');
+    const results = document.getElementById('results');
+    results.classList.add('show');
+
+    let score = 0;
+    const reviewList = document.getElementById('reviewList');
+    reviewList.innerHTML = '';
+
+    questions.forEach((q, i) => {
+      const correct = userAnswers[i] === q.answer;
+      if (correct) score++;
+      const item = document.createElement('div');
+      item.className = 'review-item ' + (correct ? 'correct' : 'wrong');
+      item.innerHTML = `
+        <span class="mark">${correct ? '✓' : '✕'}</span>
+        <div>
+          <p>${q.text}</p>
+          ${!correct ? `<p class="correct-note">Respuesta correcta: ${q.answer ? 'S\u00ed' : 'No'}</p>` : ''}
+        </div>`;
+      reviewList.appendChild(item);
+    });
+
+    document.getElementById('scoreNum').textContent = score;
+
+    const circumference = 327;
+    const offset = circumference - (score / questions.length) * circumference;
+    const arc = document.getElementById('scoreArc');
+    setTimeout(() => { arc.style.strokeDashoffset = offset; }, 80);
+
+    let title, sub, arcColor;
+    if (score === 8){ title = '\u00a1Perfecto! \ud83c\udfc6'; sub = 'Te sabes el tema al derecho y al rev\u00e9s.'; arcColor = '#2f7d4f'; }
+    else if (score >= 6){ title = '\u00a1Muy bien! \ud83d\udc4f'; sub = 'Dominas la mayor\u00eda de los conceptos.'; arcColor = '#2f7d4f'; }
+    else if (score >= 4){ title = 'Vas bien, repasa un poco \ud83d\udcd8'; sub = 'Le falta un repaso a algunas secciones.'; arcColor = '#a04d1a'; }
+    else { title = 'Repasa el sitio de nuevo \ud83d\udd01'; sub = 'Revisa Ventajas, Requisitos y Gu\u00eda de Instalaci\u00f3n.'; arcColor = '#b23a2e'; }
+
+    document.getElementById('gradeTitle').textContent = title;
+    document.getElementById('gradeSub').textContent = sub;
+    arc.style.stroke = arcColor;
+
+    saveAttempt(score);
+    renderHistory();
+  }
+
+  function saveAttempt(score){
+    try{
+      const raw = localStorage.getItem('quiz-attempts-tema1');
+      const attempts = raw ? JSON.parse(raw) : [];
+      attempts.unshift({ score: score, total: questions.length, date: new Date().toLocaleString('es-ES', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) });
+      localStorage.setItem('quiz-attempts-tema1', JSON.stringify(attempts.slice(0, 8)));
+    } catch(e){ /* localStorage no disponible */ }
+  }
+
+  function renderHistory(){
+    try{
+      const raw = localStorage.getItem('quiz-attempts-tema1');
+      const attempts = raw ? JSON.parse(raw) : [];
+      const box = document.getElementById('historyBox');
+      const list = document.getElementById('historyList');
+      if (attempts.length === 0){ box.style.display = 'none'; return; }
+      box.style.display = 'block';
+      list.innerHTML = attempts.map(a => `
+        <div class="history-row"><span>${a.score} / ${a.total || questions.length}</span><span>${a.date}</span></div>
+      `).join('');
+    } catch(e){ /* localStorage no disponible */ }
+  }
+
+  function restart(){
+    current = 0;
+    userAnswers = new Array(questions.length).fill(null);
+    document.getElementById('quizBody').classList.remove('hide');
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('scoreArc').style.strokeDashoffset = 327;
+    renderQuestion();
+  }
+
+  buildDots();
+  renderQuestion();
+  renderHistory();
+  document.getElementById('denLabel').textContent = `de ${questions.length}`;
+</script>
 
 </body>
 </html>
