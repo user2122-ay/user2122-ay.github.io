@@ -6,19 +6,19 @@
 <title>Manual de Funcionamiento — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper: #f8f7f3;
-    --paper-line: #e2e5e0;
-    --ink: #182430;
-    --muted: #6e7a86;
-    --cisco: #0f6690;
-    --cisco-soft: #e7f1f6;
-    --logisim: #a04d1a;
-    --logisim-soft: #f7ece2;
-    --panel-border: #e5e7e1;
-    --shadow: 28, 42, 53;
+    --paper: #060a13;
+    --paper-line: rgba(47,216,255,0.07);
+    --ink: #dff6ff;
+    --muted: #6f93ab;
+    --cisco: #2fd8ff;
+    --cisco-soft: #0c2230;
+    --logisim: #ff2fd0;
+    --logisim-soft: #2a0d24;
+    --panel-border: #163449;
+    --shadow: 47, 216, 255;
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
@@ -27,7 +27,7 @@
   body{
     background: var(--paper);
     color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Mono', monospace;
     min-height: 100vh;
     background-image:
       linear-gradient(var(--paper-line) 1px, transparent 1px),
@@ -37,6 +37,8 @@
   }
 
   .page{
+    position: relative;
+    z-index: 1;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -77,11 +79,12 @@
   }
 
   h1.section-title{
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
     font-size: clamp(24px, 4vw, 38px);
     margin-top: 10px;
     color: var(--ink);
+    animation: title-flicker 3.6s ease-in-out infinite;
   }
 
   .app-block{
@@ -101,12 +104,14 @@
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
   }
-  .app-block-head .icon-wrap.cisco{ background: var(--cisco-soft); }
-  .app-block-head .icon-wrap.logisim{ background: var(--logisim-soft); }
+  .app-block-head .icon-wrap.cisco{ background: var(--cisco-soft); border: 1px solid var(--cisco); box-shadow: 0 0 12px rgba(47,216,255,0.4); }
+  .app-block-head .icon-wrap.logisim{ background: var(--logisim-soft); border: 1px solid var(--logisim); box-shadow: 0 0 12px rgba(255,47,208,0.4); }
+  .app-block-head .icon-wrap.cisco svg{ filter: drop-shadow(0 0 3px rgba(47,216,255,0.6)); }
+  .app-block-head .icon-wrap.logisim svg{ filter: drop-shadow(0 0 3px rgba(255,47,208,0.6)); }
   .app-block-head .icon-wrap svg{ width: 22px; height: 22px; }
 
   .app-block-head h2{
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
     font-size: clamp(18px, 2.4vw, 22px);
   }
@@ -120,7 +125,7 @@
   }
 
   .gcard{
-    background: #ffffff;
+    background: #0a121f;
     border: 1px solid var(--panel-border);
     border-radius: 8px;
     overflow: hidden;
@@ -133,8 +138,8 @@
     align-items: center;
     justify-content: center;
   }
-  .app-block.cisco .gcard .art{ background: linear-gradient(180deg, var(--cisco-soft), #ffffff); }
-  .app-block.logisim .gcard .art{ background: linear-gradient(180deg, var(--logisim-soft), #ffffff); }
+  .app-block.cisco .gcard .art{ background: linear-gradient(180deg, var(--cisco-soft), #0a121f); }
+  .app-block.logisim .gcard .art{ background: linear-gradient(180deg, var(--logisim-soft), #0a121f); }
   .gcard .art svg{ width: 46%; height: 46%; }
 
   .gcard .cap{
@@ -150,7 +155,7 @@
   }
 
   .gcard .step-title{
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Mono', monospace;
     font-weight: 600;
     font-size: clamp(12.5px, 1.5vw, 14px);
     margin: 4px 0 4px;
@@ -167,8 +172,12 @@
     .gallery{ grid-template-columns: 1fr; }
   }
 </style>
+<link rel="stylesheet" href="assets/cyberpunk-fx.css">
 </head>
 <body>
+
+<div class="bg-fx"><div class="glow-a"></div><div class="glow-b"></div><div class="scan"></div></div>
+
 
 <div class="page">
 
@@ -186,10 +195,10 @@
     <div class="app-block-head">
       <span class="icon-wrap cisco">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="6" y="9" width="36" height="24" rx="2" stroke="#0f6690" stroke-width="2.4"/>
-          <path d="M18 39h12" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M24 33v6" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M12 16h10M12 21h16M12 26h13" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
+          <rect x="6" y="9" width="36" height="24" rx="2" stroke="#2fd8ff" stroke-width="2.4"/>
+          <path d="M18 39h12" stroke="#2fd8ff" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M24 33v6" stroke="#2fd8ff" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M12 16h10M12 21h16M12 26h13" stroke="#2fd8ff" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </span>
       <h2>Cisco IT Essentials Virtual Desktop</h2>
@@ -199,9 +208,9 @@
       <div class="gcard">
         <div class="art">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M32 8v30" stroke="#0f6690" stroke-width="3" stroke-linecap="round"/>
-            <path d="M20 26l12 14 12-14" stroke="#0f6690" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14 48h36" stroke="#0f6690" stroke-width="3" stroke-linecap="round"/>
+            <path d="M32 8v30" stroke="#2fd8ff" stroke-width="3" stroke-linecap="round"/>
+            <path d="M20 26l12 14 12-14" stroke="#2fd8ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 48h36" stroke="#2fd8ff" stroke-width="3" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="cap">
@@ -214,9 +223,9 @@
       <div class="gcard">
         <div class="art">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="10" y="14" width="44" height="30" rx="3" stroke="#0f6690" stroke-width="3"/>
-            <path d="M26 26l14 6-14 6z" fill="#0f6690"/>
-            <path d="M22 50h20" stroke="#0f6690" stroke-width="3" stroke-linecap="round"/>
+            <rect x="10" y="14" width="44" height="30" rx="3" stroke="#2fd8ff" stroke-width="3"/>
+            <path d="M26 26l14 6-14 6z" fill="#2fd8ff"/>
+            <path d="M22 50h20" stroke="#2fd8ff" stroke-width="3" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="cap">
@@ -229,10 +238,10 @@
       <div class="gcard">
         <div class="art">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="12" y="10" width="26" height="18" rx="2" stroke="#0f6690" stroke-width="3"/>
-            <rect x="42" y="34" width="14" height="14" rx="2" stroke="#0f6690" stroke-width="2.4" stroke-dasharray="3 3"/>
-            <path d="M25 28v8M12 44h26" stroke="#0f6690" stroke-width="3" stroke-linecap="round"/>
-            <path d="M38 41h4" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
+            <rect x="12" y="10" width="26" height="18" rx="2" stroke="#2fd8ff" stroke-width="3"/>
+            <rect x="42" y="34" width="14" height="14" rx="2" stroke="#2fd8ff" stroke-width="2.4" stroke-dasharray="3 3"/>
+            <path d="M25 28v8M12 44h26" stroke="#2fd8ff" stroke-width="3" stroke-linecap="round"/>
+            <path d="M38 41h4" stroke="#2fd8ff" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="cap">
@@ -248,11 +257,11 @@
     <div class="app-block-head">
       <span class="icon-wrap logisim">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 14v20" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#a04d1a" stroke-width="2.4" stroke-linejoin="round"/>
-          <path d="M6 18h6M6 30h6" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M32 24h10" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-          <circle cx="35" cy="24" r="1.6" fill="#a04d1a"/>
+          <path d="M12 14v20" stroke="#ff2fd0" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#ff2fd0" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M6 18h6M6 30h6" stroke="#ff2fd0" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M32 24h10" stroke="#ff2fd0" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="35" cy="24" r="1.6" fill="#ff2fd0"/>
         </svg>
       </span>
       <h2>Logisim Evolution</h2>
@@ -262,9 +271,9 @@
       <div class="gcard">
         <div class="art">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M32 8v30" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
-            <path d="M20 26l12 14 12-14" stroke="#a04d1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14 48h36" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
+            <path d="M32 8v30" stroke="#ff2fd0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M20 26l12 14 12-14" stroke="#ff2fd0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 48h36" stroke="#ff2fd0" stroke-width="3" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="cap">
@@ -277,9 +286,9 @@
       <div class="gcard">
         <div class="art">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="10" y="14" width="44" height="30" rx="3" stroke="#a04d1a" stroke-width="3"/>
-            <path d="M26 26l14 6-14 6z" fill="#a04d1a"/>
-            <path d="M22 50h20" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
+            <rect x="10" y="14" width="44" height="30" rx="3" stroke="#ff2fd0" stroke-width="3"/>
+            <path d="M26 26l14 6-14 6z" fill="#ff2fd0"/>
+            <path d="M22 50h20" stroke="#ff2fd0" stroke-width="3" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="cap">
@@ -292,10 +301,10 @@
       <div class="gcard">
         <div class="art">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 22h14a8 8 0 0 1 0 16h-14" stroke="#a04d1a" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M4 26h6M4 34h6" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
-            <path d="M32 30h10" stroke="#a04d1a" stroke-width="3" stroke-linecap="round"/>
-            <circle cx="48" cy="30" r="4" stroke="#a04d1a" stroke-width="3"/>
+            <path d="M10 22h14a8 8 0 0 1 0 16h-14" stroke="#ff2fd0" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M4 26h6M4 34h6" stroke="#ff2fd0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M32 30h10" stroke="#ff2fd0" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="48" cy="30" r="4" stroke="#ff2fd0" stroke-width="3"/>
           </svg>
         </div>
         <div class="cap">
@@ -314,6 +323,6 @@
 
 </div>
 
+<script src="assets/particles.js"></script>
 </body>
 </html>
-
