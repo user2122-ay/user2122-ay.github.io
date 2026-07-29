@@ -6,23 +6,23 @@
 <title>Pon a Prueba lo Aprendido — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper: #f8f7f3;
-    --paper-line: #e2e5e0;
-    --ink: #182430;
-    --muted: #6e7a86;
-    --cisco: #0f6690;
-    --cisco-soft: #e7f1f6;
-    --logisim: #a04d1a;
-    --logisim-soft: #f7ece2;
-    --panel-border: #e5e7e1;
-    --shadow: 28, 42, 53;
-    --good: #2f7d4f;
-    --good-soft: #e8f4ec;
-    --bad: #b23a2e;
-    --bad-soft: #fbeae7;
+    --paper: #060a13;
+    --paper-line: rgba(47,216,255,0.07);
+    --ink: #dff6ff;
+    --muted: #6f93ab;
+    --cisco: #2fd8ff;
+    --cisco-soft: #0c2230;
+    --logisim: #ff2fd0;
+    --logisim-soft: #2a0d24;
+    --panel-border: #163449;
+    --shadow: 47, 216, 255;
+    --good: #33ffb0;
+    --good-soft: #0d2b22;
+    --bad: #ff4d6d;
+    --bad-soft: #2a0d14;
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
@@ -31,7 +31,7 @@
   body{
     background: var(--paper);
     color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Mono', monospace;
     min-height: 100vh;
     background-image:
       linear-gradient(var(--paper-line) 1px, transparent 1px),
@@ -41,6 +41,8 @@
   }
 
   .page{
+    position: relative;
+    z-index: 1;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -80,11 +82,12 @@
   }
 
   h1.section-title{
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
     font-size: clamp(24px, 4vw, 34px);
     margin-top: 10px;
     color: var(--ink);
+    animation: title-flicker 3.6s ease-in-out infinite;
   }
 
   p.section-desc{
@@ -98,7 +101,7 @@
   .card{
     position: relative;
     width: min(680px, 100%);
-    background: #ffffff;
+    background: #0a121f;
     border: 1px solid var(--panel-border);
     border-radius: 10px;
     padding: clamp(26px, 5vw, 40px);
@@ -122,8 +125,8 @@
   .progress-row .dot{
     width: 9px; height: 9px;
     border-radius: 50%;
-    background: var(--paper-line);
-    transition: background 0.25s ease, transform 0.25s ease;
+    background: var(--panel-border);
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   }
   .progress-row .dot.done{ background: var(--good); }
   .progress-row .dot.active{ background: var(--ink); transform: scale(1.3); }
@@ -140,7 +143,7 @@
 
   .q-text{
     text-align: center;
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
     font-size: clamp(18px, 3vw, 23px);
     line-height: 1.4;
@@ -164,7 +167,7 @@
     border-radius: 8px;
     border: 2px solid var(--panel-border);
     background: var(--paper);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Mono', monospace;
     font-weight: 600;
     font-size: 16px;
     color: var(--ink);
@@ -209,18 +212,18 @@
     position: relative;
   }
   .score-ring svg{ width: 100%; height: 100%; transform: rotate(-90deg); }
-  .score-ring .bg{ fill:none; stroke: var(--paper-line); stroke-width: 10; }
+  .score-ring .bg{ fill:none; stroke: #16324a; stroke-width: 10; }
   .score-ring .fg{ fill:none; stroke: var(--good); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(.2,.8,.3,1); }
   .score-ring .label{
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
     flex-direction: column;
   }
-  .score-ring .label .num{ font-family:'Source Serif 4',serif; font-weight:700; font-size: 34px; }
+  .score-ring .label .num{ font-family:'Orbitron',sans-serif; font-weight:700; font-size: 34px; }
   .score-ring .label .den{ font-family:'IBM Plex Mono',monospace; font-size: 12px; color: var(--muted); }
 
   .grade-title{
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
     font-size: 22px;
     margin-bottom: 6px;
@@ -274,11 +277,11 @@
     padding: 12px 20px;
     border-radius: 6px;
     border: 1px solid var(--panel-border);
-    background: #fff;
+    background: #0a121f;
     color: var(--ink);
     cursor: pointer;
   }
-  .btn.primary{ background: var(--ink); color: #fff; border-color: var(--ink); }
+  .btn.primary{ background: var(--cisco); color: #05070d; border-color: var(--cisco); font-weight: 700; }
 
   .history{
     width: min(680px, 100%);
@@ -303,31 +306,89 @@
   }
   .history-row span:last-child{ color: var(--muted); font-family:'IBM Plex Mono',monospace; font-size: 11.5px; }
 
+  .qr-card{
+    width: min(680px, 100%);
+    margin-top: 22px;
+    background: #0a121f;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 20px clamp(20px, 5vw, 30px);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 0 0 1px rgba(47,216,255,0.05), 0 0 30px rgba(47,216,255,0.08);
+  }
+
+  .qr-card #qrcode{
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--cisco);
+    box-shadow: 0 0 14px rgba(47,216,255,0.35);
+    padding: 6px;
+    background: #0c1826;
+  }
+
+  .qr-card #qrcode img{ display:block; width: 100%; height: 100%; }
+
+  .qr-text .qr-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cisco);
+  }
+
+  .qr-text .qr-title{
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin: 4px 0;
+    color: var(--ink);
+  }
+
+  .qr-text .qr-url{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    word-break: break-all;
+  }
+
+  @media (max-width: 480px){
+    .qr-card{ flex-direction: column; text-align: center; }
+  }
+
   @media (max-width: 480px){
     .choices{ grid-template-columns: 1fr 1fr; }
   }
 </style>
+<link rel="stylesheet" href="assets/cyberpunk-fx.css">
 </head>
 <body>
 
+<div class="bg-fx"><div class="glow-a"></div><div class="glow-b"></div><div class="scan"></div></div>
+
+
 <div class="page">
 
-  <a class="back-link" href="index.html">
+  <a class="back-link" href="videos.html">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Portada
+    Videos de la Instalaci&oacute;n
   </a>
 
   <div class="section-head">
     <p class="section-eyebrow">Bonus &middot; Autoevaluaci&oacute;n</p>
     <h1 class="section-title">Pon a Prueba lo Aprendido</h1>
-    <p class="section-desc">8 preguntas de S&iacute; o No sobre Cisco IT Essentials Virtual Desktop y Logisim Evolution. Tu resultado se guarda autom&aacute;ticamente en este dispositivo.</p>
+    <p class="section-desc">15 preguntas de S&iacute;/No sobre Cisco IT Essentials Virtual Desktop y Logisim Evolution. Tu resultado se guarda autom&aacute;ticamente en este dispositivo.</p>
   </div>
 
   <div class="card">
 
     <div class="quiz-body" id="quizBody">
       <div class="progress-row" id="progressRow"></div>
-      <p class="q-count" id="qCount">Pregunta 1 de 8</p>
+      <p class="q-count" id="qCount">Pregunta 1 de 15</p>
       <p class="q-text" id="qText"></p>
 
       <div class="choices">
@@ -349,7 +410,7 @@
         </svg>
         <div class="label">
           <span class="num" id="scoreNum">0</span>
-          <span class="den">de 8</span>
+          <span class="den" id="denLabel">de 15</span>
         </div>
       </div>
       <p class="grade-title" id="gradeTitle"></p>
@@ -369,6 +430,15 @@
     <div id="historyList"></div>
   </div>
 
+  <div class="qr-card">
+    <div id="qrcode"></div>
+    <div class="qr-text">
+      <p class="qr-label">&gt; Comp&aacute;rtelo</p>
+      <p class="qr-title">Escanea para tomar la encuesta</p>
+      <p class="qr-url">user2122-ay.github.io/quiz.html</p>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -381,6 +451,13 @@
     { text: "Cisco IT Essentials Virtual Desktop se puede descargar libremente desde cualquier sitio web sin restricciones.", answer: false },
     { text: "Logisim Evolution est\u00e1 licenciado bajo la GPL-3.0 (software libre).", answer: true },
     { text: "Cisco IT Essentials Virtual Desktop permite practicar el ensamblaje de una PC sin usar hardware real.", answer: true },
+    { text: "Cisco IT Essentials Virtual Desktop forma parte del programa Cisco Networking Academy.", answer: true },
+    { text: "Logisim Evolution permite simular circuitos l\u00f3gicos como compuertas AND, OR y NOT.", answer: true },
+    { text: "Para instalar Logisim Evolution siempre hay que instalar Java por separado, incluso usando el instalador oficial de Windows.", answer: false },
+    { text: "El uso de Cisco IT Essentials Virtual Desktop es completamente gratuito y sin ning\u00fan tipo de restricci\u00f3n de acceso.", answer: false },
+    { text: "Logisim Evolution se debe descargar preferiblemente desde sitios espejo en vez de su repositorio oficial.", answer: false },
+    { text: "Una limitaci\u00f3n de Logisim Evolution es que no considera variables f\u00edsicas reales como el ruido el\u00e9ctrico o la temperatura.", answer: true },
+    { text: "El manual de funcionamiento b\u00e1sico del sitio incluye una galer\u00eda ilustrada con los pasos de instalaci\u00f3n y uso.", answer: true },
   ];
 
   let current = 0;
@@ -474,10 +551,10 @@
     setTimeout(() => { arc.style.strokeDashoffset = offset; }, 80);
 
     let title, sub, arcColor;
-    if (score === 8){ title = '\u00a1Perfecto! \ud83c\udfc6'; sub = 'Te sabes el tema al derecho y al rev\u00e9s.'; arcColor = '#2f7d4f'; }
-    else if (score >= 6){ title = '\u00a1Muy bien! \ud83d\udc4f'; sub = 'Dominas la mayor\u00eda de los conceptos.'; arcColor = '#2f7d4f'; }
-    else if (score >= 4){ title = 'Vas bien, repasa un poco \ud83d\udcd8'; sub = 'Le falta un repaso a algunas secciones.'; arcColor = '#a04d1a'; }
-    else { title = 'Repasa el sitio de nuevo \ud83d\udd01'; sub = 'Revisa Ventajas, Requisitos y Gu\u00eda de Instalaci\u00f3n.'; arcColor = '#b23a2e'; }
+    if (score === 8){ title = '\u00a1Perfecto! \ud83c\udfc6'; sub = 'Te sabes el tema al derecho y al rev\u00e9s.'; arcColor = '#33ffb0'; }
+    else if (score >= 6){ title = '\u00a1Muy bien! \ud83d\udc4f'; sub = 'Dominas la mayor\u00eda de los conceptos.'; arcColor = '#33ffb0'; }
+    else if (score >= 4){ title = 'Vas bien, repasa un poco \ud83d\udcd8'; sub = 'Le falta un repaso a algunas secciones.'; arcColor = '#ff2fd0'; }
+    else { title = 'Repasa el sitio de nuevo \ud83d\udd01'; sub = 'Revisa Ventajas, Requisitos y Gu\u00eda de Instalaci\u00f3n.'; arcColor = '#ff4d6d'; }
 
     document.getElementById('gradeTitle').textContent = title;
     document.getElementById('gradeSub').textContent = sub;
@@ -491,7 +568,7 @@
     try{
       const raw = localStorage.getItem('quiz-attempts-tema1');
       const attempts = raw ? JSON.parse(raw) : [];
-      attempts.unshift({ score: score, date: new Date().toLocaleString('es-ES', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) });
+      attempts.unshift({ score: score, total: questions.length, date: new Date().toLocaleString('es-ES', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) });
       localStorage.setItem('quiz-attempts-tema1', JSON.stringify(attempts.slice(0, 8)));
     } catch(e){ /* localStorage no disponible */ }
   }
@@ -505,7 +582,7 @@
       if (attempts.length === 0){ box.style.display = 'none'; return; }
       box.style.display = 'block';
       list.innerHTML = attempts.map(a => `
-        <div class="history-row"><span>${a.score} / 8</span><span>${a.date}</span></div>
+        <div class="history-row"><span>${a.score} / ${a.total || questions.length}</span><span>${a.date}</span></div>
       `).join('');
     } catch(e){ /* localStorage no disponible */ }
   }
@@ -522,8 +599,21 @@
   buildDots();
   renderQuestion();
   renderHistory();
+  document.getElementById('denLabel').textContent = `de ${questions.length}`;
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  new QRCode(document.getElementById("qrcode"), {
+    text: "https://user2122-ay.github.io/quiz.html",
+    width: 160,
+    height: 160,
+    colorDark: "#0a121f",
+    colorLight: "#dff6ff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
+
+<script src="assets/particles.js"></script>
 </body>
 </html>
-
