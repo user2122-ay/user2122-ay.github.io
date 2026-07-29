@@ -1,0 +1,148 @@
+/* ============================================
+   Cyberpunk FX — efectos visuales compartidos
+   Tema #1 · Cisco IT Essentials & Logisim Evolution
+   ============================================ */
+
+.bg-fx{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* moving perspective glow grid on the floor */
+.bg-fx .glow-a,
+.bg-fx .glow-b{
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.16;
+  animation: drift 18s ease-in-out infinite alternate;
+}
+.bg-fx .glow-a{
+  top: -10%; left: -10%;
+  background: radial-gradient(circle, #2fd8ff, transparent 70%);
+}
+.bg-fx .glow-b{
+  bottom: -15%; right: -10%;
+  background: radial-gradient(circle, #ff2fd0, transparent 70%);
+  animation-delay: -9s;
+}
+
+@keyframes drift{
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(4%, 6%) scale(1.08); }
+}
+
+/* scanline sweep */
+.bg-fx .scan{
+  position: absolute;
+  left: 0; right: 0;
+  height: 140px;
+  background: linear-gradient(180deg, transparent, rgba(47,216,255,0.05) 45%, rgba(47,216,255,0.09) 50%, rgba(47,216,255,0.05) 55%, transparent);
+  animation: scan-move 7s linear infinite;
+}
+@keyframes scan-move{
+  0%   { top: -140px; }
+  100% { top: 100vh; }
+}
+
+/* fine repeating scanline texture */
+.bg-fx::after{
+  content:"";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0,0,0,0) 0px,
+    rgba(0,0,0,0) 2px,
+    rgba(47,216,255,0.025) 3px,
+    rgba(0,0,0,0) 4px
+  );
+  mix-blend-mode: screen;
+}
+
+/* floating particles */
+.particle{
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #2fd8ff;
+  box-shadow: 0 0 6px 1px rgba(47,216,255,0.8);
+  opacity: 0;
+  animation: rise linear infinite;
+}
+.particle.magenta{
+  background: #ff2fd0;
+  box-shadow: 0 0 6px 1px rgba(255,47,208,0.8);
+}
+@keyframes rise{
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  8%   { opacity: 0.9; }
+  92%  { opacity: 0.5; }
+  100% { transform: translateY(-105vh) translateX(var(--drift, 20px)); opacity: 0; }
+}
+
+/* glitch title effect */
+.glitch{
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after{
+  content: attr(data-text);
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%;
+  overflow: hidden;
+  opacity: 0.75;
+}
+.glitch::before{
+  color: #2fd8ff;
+  animation: glitch-a 4.5s infinite linear alternate-reverse;
+  clip-path: inset(0 0 55% 0);
+}
+.glitch::after{
+  color: #ff2fd0;
+  animation: glitch-b 4.5s infinite linear alternate-reverse;
+  clip-path: inset(55% 0 0 0);
+}
+@keyframes glitch-a{
+  0%, 92%, 100% { transform: translate(0,0); }
+  93% { transform: translate(-2px,-1px); }
+  95% { transform: translate(2px,1px); }
+  97% { transform: translate(-1px,1px); }
+}
+@keyframes glitch-b{
+  0%, 90%, 100% { transform: translate(0,0); }
+  91% { transform: translate(2px,1px); }
+  94% { transform: translate(-2px,-1px); }
+  96% { transform: translate(1px,-1px); }
+}
+
+/* neon pulse used on key CTAs / icons */
+@keyframes neon-pulse{
+  0%, 100% { filter: drop-shadow(0 0 3px currentColor); }
+  50%      { filter: drop-shadow(0 0 9px currentColor); }
+}
+.neon-pulse{ animation: neon-pulse 2.4s ease-in-out infinite; }
+
+/* generic reveal-on-load */
+@keyframes fx-fade-up{
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fx-in{ animation: fx-fade-up 0.6s ease both; }
+
+/* subtle neon title flicker, used on h1.section-title across pages */
+@keyframes title-flicker{
+  0%, 100% { text-shadow: 0 0 10px rgba(47,216,255,0.35), 0 0 22px rgba(47,216,255,0.12); }
+  50%      { text-shadow: 0 0 16px rgba(47,216,255,0.55), 0 0 30px rgba(47,216,255,0.22); }
+  92%      { text-shadow: 0 0 3px rgba(47,216,255,0.15); }
+}
+
