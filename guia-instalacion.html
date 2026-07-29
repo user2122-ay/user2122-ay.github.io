@@ -6,19 +6,19 @@
 <title>Gu&iacute;a de Descarga e Instalaci&oacute;n — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper: #f8f7f3;
-    --paper-line: #e2e5e0;
-    --ink: #182430;
-    --muted: #6e7a86;
-    --cisco: #0f6690;
-    --cisco-soft: #e7f1f6;
-    --logisim: #a04d1a;
-    --logisim-soft: #f7ece2;
-    --panel-border: #e5e7e1;
-    --shadow: 28, 42, 53;
+    --paper: #060a13;
+    --paper-line: rgba(47,216,255,0.07);
+    --ink: #dff6ff;
+    --muted: #6f93ab;
+    --cisco: #2fd8ff;
+    --cisco-soft: #0c2230;
+    --logisim: #ff2fd0;
+    --logisim-soft: #2a0d24;
+    --panel-border: #163449;
+    --shadow: 47, 216, 255;
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
@@ -27,7 +27,7 @@
   body{
     background: var(--paper);
     color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Mono', monospace;
     min-height: 100vh;
     background-image:
       linear-gradient(var(--paper-line) 1px, transparent 1px),
@@ -37,6 +37,8 @@
   }
 
   .page{
+    position: relative;
+    z-index: 1;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -77,11 +79,12 @@
   }
 
   h1.section-title{
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
     font-size: clamp(24px, 4vw, 38px);
     margin-top: 10px;
     color: var(--ink);
+    animation: title-flicker 3.6s ease-in-out infinite;
   }
 
   .app-grid{
@@ -93,7 +96,7 @@
 
   .app-card{
     position: relative;
-    background: #ffffff;
+    background: #0a121f;
     border: 1px solid var(--panel-border);
     border-radius: 8px;
     padding: clamp(26px, 4vw, 34px);
@@ -120,12 +123,14 @@
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
   }
-  .app-card-head .icon-wrap.cisco{ background: var(--cisco-soft); }
-  .app-card-head .icon-wrap.logisim{ background: var(--logisim-soft); }
+  .app-card-head .icon-wrap.cisco{ background: var(--cisco-soft); border: 1px solid var(--cisco); box-shadow: 0 0 12px rgba(47,216,255,0.4); }
+  .app-card-head .icon-wrap.logisim{ background: var(--logisim-soft); border: 1px solid var(--logisim); box-shadow: 0 0 12px rgba(255,47,208,0.4); }
   .app-card-head .icon-wrap svg{ width: 22px; height: 22px; }
+  .app-card-head .icon-wrap.cisco svg{ filter: drop-shadow(0 0 3px rgba(47,216,255,0.6)); }
+  .app-card-head .icon-wrap.logisim svg{ filter: drop-shadow(0 0 3px rgba(255,47,208,0.6)); }
 
   .app-card-head h2{
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 600;
     font-size: clamp(16px, 2vw, 19px);
     line-height: 1.3;
@@ -172,11 +177,43 @@
     font-size: 10.5px;
     font-weight: 600;
     display: flex; align-items: center; justify-content: center;
-    color: #fff;
+    color: #05070d;
   }
 
   .app-card.cisco ol.step-list li::before{ background: var(--cisco); }
   .app-card.logisim ol.step-list li::before{ background: var(--logisim); }
+
+  .dl-link{
+    color: var(--cisco);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(47,216,255,0.5);
+    transition: text-shadow 0.2s ease;
+  }
+  .app-card.logisim .dl-link{ color: var(--logisim); border-bottom-color: rgba(255,47,208,0.5); }
+  .dl-link:hover{ text-shadow: 0 0 8px currentColor; }
+
+  .dl-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1px solid var(--cisco);
+    color: var(--cisco);
+    box-shadow: 0 0 0 rgba(47,216,255,0);
+    transition: all 0.2s ease;
+  }
+  .dl-btn:hover{ background: var(--cisco); color: #05070d; box-shadow: 0 0 18px rgba(47,216,255,0.5); }
+  .app-card.logisim .dl-btn{ border-color: var(--logisim); color: var(--logisim); }
+  .app-card.logisim .dl-btn:hover{ background: var(--logisim); color: #05070d; box-shadow: 0 0 18px rgba(255,47,208,0.5); }
 
   .warn-note{
     margin-top: 12px;
@@ -227,8 +264,12 @@
     .app-grid{ grid-template-columns: 1fr; }
   }
 </style>
+<link rel="stylesheet" href="assets/cyberpunk-fx.css">
 </head>
 <body>
+
+<div class="bg-fx"><div class="glow-a"></div><div class="glow-b"></div><div class="scan"></div></div>
+
 
 <div class="page">
 
@@ -248,10 +289,10 @@
       <div class="app-card-head">
         <span class="icon-wrap cisco">
           <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="6" y="9" width="36" height="24" rx="2" stroke="#0f6690" stroke-width="2.4"/>
-            <path d="M18 39h12" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M24 33v6" stroke="#0f6690" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M12 16h10M12 21h16M12 26h13" stroke="#0f6690" stroke-width="2" stroke-linecap="round"/>
+            <rect x="6" y="9" width="36" height="24" rx="2" stroke="#2fd8ff" stroke-width="2.4"/>
+            <path d="M18 39h12" stroke="#2fd8ff" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M24 33v6" stroke="#2fd8ff" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M12 16h10M12 21h16M12 26h13" stroke="#2fd8ff" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </span>
         <h2>Cisco IT Essentials<br>Virtual Desktop</h2>
@@ -259,23 +300,24 @@
 
       <p class="field-label">Obtenci&oacute;n segura</p>
       <ol class="step-list">
-        <li>Inscribirse en el curso <strong>IT Essentials</strong> dentro de Cisco Networking Academy (netacad.com), la plataforma oficial de Cisco.</li>
+        <li>Inscribirse en el curso <strong>IT Essentials</strong> dentro de <a href="https://www.netacad.com/" target="_blank" rel="noopener" class="dl-link">Cisco Networking Academy (netacad.com) ↗</a>, la plataforma oficial de Cisco.</li>
         <li>Ingresar con la cuenta del curso y ubicar la secci&oacute;n de recursos o actividades pr&aacute;cticas ("Virtual Desktop Activity").</li>
         <li>Descargar el archivo &uacute;nicamente desde el enlace oficial que entrega la plataforma o el instructor.</li>
         <li>Descomprimir el archivo ZIP y abrir el <code>index.html</code> incluido para iniciar la actividad en el navegador.</li>
       </ol>
       <p class="warn-note">&#9888; Evitar descargarlo de sitios de terceros o enlaces "gratis": no garantizan la versi&oacute;n correcta ni la seguridad del archivo.</p>
+      <a href="https://www.netacad.com/" target="_blank" rel="noopener" class="dl-btn">↗ Ir a Cisco Networking Academy</a>
     </article>
 
     <article class="app-card logisim">
       <div class="app-card-head">
         <span class="icon-wrap logisim">
           <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 14v20" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#a04d1a" stroke-width="2.4" stroke-linejoin="round"/>
-            <path d="M6 18h6M6 30h6" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M32 24h10" stroke="#a04d1a" stroke-width="2.4" stroke-linecap="round"/>
-            <circle cx="35" cy="24" r="1.6" fill="#a04d1a"/>
+            <path d="M12 14v20" stroke="#ff2fd0" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M12 14h8a10 10 0 0 1 0 20h-8" stroke="#ff2fd0" stroke-width="2.4" stroke-linejoin="round"/>
+            <path d="M6 18h6M6 30h6" stroke="#ff2fd0" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M32 24h10" stroke="#ff2fd0" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="35" cy="24" r="1.6" fill="#ff2fd0"/>
           </svg>
         </span>
         <h2>Logisim Evolution</h2>
@@ -283,12 +325,13 @@
 
       <p class="field-label">Obtenci&oacute;n segura</p>
       <ol class="step-list">
-        <li>Entrar al repositorio oficial en GitHub: <strong>github.com/logisim-evolution/logisim-evolution</strong>.</li>
+        <li>Entrar al repositorio oficial en GitHub: <a href="https://github.com/logisim-evolution/logisim-evolution/releases" target="_blank" rel="noopener" class="dl-link">github.com/logisim-evolution/logisim-evolution ↗</a>.</li>
         <li>Ir a la secci&oacute;n <strong>Releases</strong> y elegir el instalador seg&uacute;n el sistema operativo (.msi Windows, .dmg macOS, .deb/.rpm/.snap Linux).</li>
         <li>Descargar solo desde ese repositorio oficial, evitando sitios espejo con software adicional no deseado.</li>
         <li>Ejecutar el instalador descargado y seguir el asistente paso a paso.</li>
       </ol>
       <p class="warn-note">&#9888; Los paquetes oficiales (.msi/.dmg) ya incluyen el entorno de Java; no es necesario instalarlo aparte salvo que uses el archivo .jar universal.</p>
+      <a href="https://github.com/logisim-evolution/logisim-evolution/releases" target="_blank" rel="noopener" class="dl-btn">↗ Ir a GitHub Releases</a>
     </article>
 
   </div>
@@ -300,6 +343,8 @@
 
 </div>
 
+<script src="assets/particles.js"></script>
 </body>
 </html>
 <!-- rev: 1784573773 -->
+
