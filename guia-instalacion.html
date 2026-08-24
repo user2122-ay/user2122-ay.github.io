@@ -19,6 +19,7 @@
     --logisim-soft: #2a0d24;
     --panel-border: #163449;
     --shadow: 47, 216, 255;
+    --good: #33ffb0;
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
@@ -87,6 +88,14 @@
     animation: title-flicker 3.6s ease-in-out infinite;
   }
 
+  p.section-desc{
+    max-width: 56ch;
+    margin: 14px auto 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
   .app-grid{
     width: min(980px, 100%);
     display: grid;
@@ -140,6 +149,9 @@
   .app-card.logisim h2{ color: var(--logisim); }
 
   .field-label{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10.5px;
     letter-spacing: 0.18em;
@@ -148,40 +160,44 @@
     margin-bottom: 12px;
   }
   .field-label:not(:first-of-type){ margin-top: 26px; }
+  .field-label .count{ color: var(--ink); }
 
-  ol.step-list{
+  /* checklist replaces plain ordered list */
+  .check-list{
     list-style: none;
-    counter-reset: step;
     display: flex;
     flex-direction: column;
+    gap: 10px;
+  }
+  .check-item{
+    display: flex;
+    align-items: flex-start;
     gap: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--panel-border);
+    background: var(--paper);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
   }
-
-  ol.step-list li{
-    counter-increment: step;
-    position: relative;
-    padding-left: 30px;
-    text-align: left;
-    font-size: clamp(13px, 1.45vw, 14.5px);
-    line-height: 1.6;
-    color: var(--ink);
+  .check-item:hover{ border-color: var(--muted); }
+  .check-item.checked{ border-color: var(--good); background: rgba(51,255,176,0.06); }
+  .check-item input{ display:none; }
+  .check-box{
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--muted);
+    margin-top: 1px;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 12px;
+    color: transparent;
+    transition: all 0.15s ease;
   }
-
-  ol.step-list li::before{
-    content: counter(step);
-    position: absolute;
-    left: 0; top: 0;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
-    font-weight: 600;
-    display: flex; align-items: center; justify-content: center;
-    color: #05070d;
-  }
-
-  .app-card.cisco ol.step-list li::before{ background: var(--cisco); }
-  .app-card.logisim ol.step-list li::before{ background: var(--logisim); }
+  .check-item.checked .check-box{ background: var(--good); border-color: var(--good); color: #05070d; }
+  .check-text{ text-align: left; font-size: clamp(13px, 1.45vw, 14.5px); line-height: 1.6; color: var(--ink); }
+  .check-item.checked .check-text{ color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(111,147,171,0.5); }
+  .check-text .dl-link{ text-decoration-color: rgba(47,216,255,0.5); }
 
   .dl-link{
     color: var(--cisco);
@@ -227,44 +243,12 @@
     text-align: left;
   }
 
-  ul.plain-list{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  ul.plain-list li{
-    position: relative;
-    padding-left: 18px;
-    text-align: left;
-    font-size: clamp(13px, 1.45vw, 14.5px);
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  ul.plain-list li::before{
-    content: "";
-    position: absolute;
-    left: 0; top: 0.6em;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-  }
-  .app-card.cisco ul.plain-list li::before{ background: var(--cisco); }
-  .app-card.logisim ul.plain-list li::before{ background: var(--logisim); }
-
-  p.license-text{
-    text-align: left;
-    font-size: clamp(13px, 1.45vw, 14.5px);
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
   @media (max-width: 760px){
     .app-grid{ grid-template-columns: 1fr; }
   }
 </style>
 <link rel="stylesheet" href="assets/cyberpunk-fx.css">
+<link rel="stylesheet" href="assets/site-nav.css">
 </head>
 <body>
 
@@ -281,6 +265,7 @@
   <div class="section-head">
     <p class="section-eyebrow">Tema #1 &middot; Punto 4</p>
     <h1 class="section-title">Gu&iacute;a de Descarga e Instalaci&oacute;n</h1>
+    <p class="section-desc">Marca cada paso a medida que lo completas. Tu progreso se guarda en este dispositivo.</p>
   </div>
 
   <div class="app-grid">
@@ -298,13 +283,13 @@
         <h2>Cisco IT Essentials<br>Virtual Desktop</h2>
       </div>
 
-      <p class="field-label">Obtenci&oacute;n segura</p>
-      <ol class="step-list">
-        <li>Inscribirse en el curso <strong>IT Essentials</strong> dentro de <a href="https://www.netacad.com/" target="_blank" rel="noopener" class="dl-link">Cisco Networking Academy (netacad.com) ↗</a>, la plataforma oficial de Cisco.</li>
-        <li>Ingresar con la cuenta del curso y ubicar la secci&oacute;n de recursos o actividades pr&aacute;cticas ("Virtual Desktop Activity").</li>
-        <li>Descargar el archivo &uacute;nicamente desde el enlace oficial que entrega la plataforma o el instructor.</li>
-        <li>Descomprimir el archivo ZIP y abrir el <code>index.html</code> incluido para iniciar la actividad en el navegador.</li>
-      </ol>
+      <p class="field-label">Obtenci&oacute;n segura <span class="count" data-count="cisco">0/4</span></p>
+      <ul class="check-list" data-checklist="cisco">
+        <li class="check-item" data-id="c1"><span class="check-box">&#10003;</span><span class="check-text">Inscribirse en el curso <strong>IT Essentials</strong> dentro de <a href="https://www.netacad.com/" target="_blank" rel="noopener" class="dl-link" onclick="event.stopPropagation()">Cisco Networking Academy (netacad.com) ↗</a>, la plataforma oficial de Cisco.</span></li>
+        <li class="check-item" data-id="c2"><span class="check-box">&#10003;</span><span class="check-text">Ingresar con la cuenta del curso y ubicar la secci&oacute;n de recursos o actividades pr&aacute;cticas ("Virtual Desktop Activity").</span></li>
+        <li class="check-item" data-id="c3"><span class="check-box">&#10003;</span><span class="check-text">Descargar el archivo &uacute;nicamente desde el enlace oficial que entrega la plataforma o el instructor.</span></li>
+        <li class="check-item" data-id="c4"><span class="check-box">&#10003;</span><span class="check-text">Descomprimir el archivo ZIP y abrir el <code>index.html</code> incluido para iniciar la actividad en el navegador.</span></li>
+      </ul>
       <p class="warn-note">&#9888; Evitar descargarlo de sitios de terceros o enlaces "gratis": no garantizan la versi&oacute;n correcta ni la seguridad del archivo.</p>
       <a href="https://www.netacad.com/" target="_blank" rel="noopener" class="dl-btn">↗ Ir a Cisco Networking Academy</a>
     </article>
@@ -323,13 +308,13 @@
         <h2>Logisim Evolution</h2>
       </div>
 
-      <p class="field-label">Obtenci&oacute;n segura</p>
-      <ol class="step-list">
-        <li>Entrar al repositorio oficial en GitHub: <a href="https://github.com/logisim-evolution/logisim-evolution/releases" target="_blank" rel="noopener" class="dl-link">github.com/logisim-evolution/logisim-evolution ↗</a>.</li>
-        <li>Ir a la secci&oacute;n <strong>Releases</strong> y elegir el instalador seg&uacute;n el sistema operativo (.msi Windows, .dmg macOS, .deb/.rpm/.snap Linux).</li>
-        <li>Descargar solo desde ese repositorio oficial, evitando sitios espejo con software adicional no deseado.</li>
-        <li>Ejecutar el instalador descargado y seguir el asistente paso a paso.</li>
-      </ol>
+      <p class="field-label">Obtenci&oacute;n segura <span class="count" data-count="logisim">0/4</span></p>
+      <ul class="check-list" data-checklist="logisim">
+        <li class="check-item" data-id="l1"><span class="check-box">&#10003;</span><span class="check-text">Entrar al repositorio oficial en GitHub: <a href="https://github.com/logisim-evolution/logisim-evolution/releases" target="_blank" rel="noopener" class="dl-link" onclick="event.stopPropagation()">github.com/logisim-evolution/logisim-evolution ↗</a>.</span></li>
+        <li class="check-item" data-id="l2"><span class="check-box">&#10003;</span><span class="check-text">Ir a la secci&oacute;n <strong>Releases</strong> y elegir el instalador seg&uacute;n el sistema operativo (.msi Windows, .dmg macOS, .deb/.rpm/.snap Linux).</span></li>
+        <li class="check-item" data-id="l3"><span class="check-box">&#10003;</span><span class="check-text">Descargar solo desde ese repositorio oficial, evitando sitios espejo con software adicional no deseado.</span></li>
+        <li class="check-item" data-id="l4"><span class="check-box">&#10003;</span><span class="check-text">Ejecutar el instalador descargado y seguir el asistente paso a paso.</span></li>
+      </ul>
       <p class="warn-note">&#9888; Los paquetes oficiales (.msi/.dmg) ya incluyen el entorno de Java; no es necesario instalarlo aparte salvo que uses el archivo .jar universal.</p>
       <a href="https://github.com/logisim-evolution/logisim-evolution/releases" target="_blank" rel="noopener" class="dl-btn">↗ Ir a GitHub Releases</a>
     </article>
@@ -344,7 +329,35 @@
 </div>
 
 <script src="assets/particles.js"></script>
+<script src="assets/site-nav.js"></script>
+<script>
+  (function(){
+    const STORAGE_KEY = 'install-checklist-tema1';
+    let state = {};
+    try{ state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }catch(e){ state = {}; }
+
+    function updateCounts(){
+      document.querySelectorAll('.check-list').forEach(list=>{
+        const items = list.querySelectorAll('.check-item');
+        const done = list.querySelectorAll('.check-item.checked').length;
+        const key = list.dataset.checklist;
+        const counter = document.querySelector('.count[data-count="'+key+'"]');
+        if (counter) counter.textContent = done + '/' + items.length;
+      });
+    }
+
+    document.querySelectorAll('.check-item').forEach(item=>{
+      const id = item.dataset.id;
+      if (state[id]) item.classList.add('checked');
+      item.addEventListener('click', (e)=>{
+        item.classList.toggle('checked');
+        state[id] = item.classList.contains('checked');
+        try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+        updateCounts();
+      });
+    });
+    updateCounts();
+  })();
+</script>
 </body>
 </html>
-<!-- rev: 1784573773 -->
-
