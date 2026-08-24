@@ -96,6 +96,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(20px, 3vw, 32px);
+    margin-bottom: 40px;
   }
 
   .app-card{
@@ -194,11 +195,63 @@
   .pro-list li::before{ background: var(--good-soft); border: 1.5px solid var(--good); }
   .con-list li::before{ background: var(--warn-soft); border: 1.5px solid var(--warn); }
 
+  /* --- FAQ accordion (new) --- */
+  .faq-block{
+    width: min(980px, 100%);
+    background: #0a121f;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: clamp(22px, 4vw, 32px);
+    overflow: hidden;
+  }
+  .faq-block h3.faq-title{
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .faq-item{ border-top: 1px solid var(--panel-border); }
+  .faq-item:last-child{ border-bottom: 1px solid var(--panel-border); }
+  .faq-q{
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(13.5px, 1.5vw, 15px);
+    font-weight: 600;
+    padding: 16px 30px 16px 0;
+    cursor: pointer;
+    position: relative;
+  }
+  .faq-q::after{
+    content: "+";
+    position: absolute;
+    right: 4px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: var(--cisco);
+    transition: transform 0.2s ease;
+  }
+  .faq-item.open .faq-q::after{ transform: translateY(-50%) rotate(45deg); }
+  .faq-a{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    font-size: clamp(13px, 1.45vw, 14.5px);
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .faq-a p{ padding-bottom: 16px; }
+  .faq-item.open .faq-a{ max-height: 220px; }
+
   @media (max-width: 760px){
     .app-grid{ grid-template-columns: 1fr; }
   }
 </style>
 <link rel="stylesheet" href="assets/cyberpunk-fx.css">
+<link rel="stylesheet" href="assets/site-nav.css">
 </head>
 <body>
 
@@ -276,6 +329,27 @@
 
   </div>
 
+  <div class="faq-block">
+    <h3 class="faq-title">Preguntas frecuentes</h3>
+
+    <div class="faq-item">
+      <button class="faq-q">&iquest;Puedo usar estas herramientas si no tengo experiencia previa?</button>
+      <div class="faq-a"><p>S&iacute;. Ambas est&aacute;n pensadas para estudiantes que rec&iacute;en empiezan: Cisco Virtual Desktop gu&iacute;a paso a paso el armado del equipo, y Logisim Evolution permite empezar con compuertas b&aacute;sicas antes de construir circuitos m&aacute;s complejos.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">&iquest;Cu&aacute;l deber&iacute;a aprender primero?</button>
+      <div class="faq-a"><p>No hay un orden obligatorio, pero en la mayor&iacute;a de los cursos se ve primero Cisco IT Essentials (hardware) y luego Logisim Evolution (l&oacute;gica digital), porque ayuda entender c&oacute;mo se ve un equipo por fuera antes de estudiar la l&oacute;gica que hay por dentro.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">&iquest;Sirven para algo fuera del sal&oacute;n de clases?</button>
+      <div class="faq-a"><p>S&iacute;. Logisim Evolution se usa tambi&eacute;n en proyectos personales y universitarios de dise&ntilde;o digital; Cisco Virtual Desktop es &uacute;til como repaso antes de armar o dar mantenimiento a un equipo real.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">&iquest;Qu&eacute; pasa si mi computadora no cumple los requisitos?</button>
+      <div class="faq-a"><p>Revisa la secci&oacute;n de <a href="requisitos.html" style="color:var(--cisco)">Requisitos y Licenciamiento</a>: en general ambas herramientas son livianas y corren en equipos modestos, pero Logisim s&iacute; necesita Java instalado.</p></div>
+    </div>
+  </div>
+
   <a class="next-link" href="guia-instalacion.html">
     Gu&iacute;a de Descarga e Instalaci&oacute;n
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -284,6 +358,13 @@
 </div>
 
 <script src="assets/particles.js"></script>
+<script src="assets/site-nav.js"></script>
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      btn.parentElement.classList.toggle('open');
+    });
+  });
+</script>
 </body>
 </html>
-<!-- rev: 1784573773 -->
