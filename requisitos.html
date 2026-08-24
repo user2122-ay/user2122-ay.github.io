@@ -92,6 +92,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(20px, 3vw, 32px);
+    margin-bottom: 40px;
   }
 
   .app-card{
@@ -194,11 +195,69 @@
   .app-card.cisco .badge{ background: var(--cisco-soft); color: var(--cisco); }
   .app-card.logisim .badge{ background: var(--logisim-soft); color: var(--logisim); }
 
+  /* --- comparison table (new) --- */
+  .compare-block{
+    width: min(980px, 100%);
+    background: #0a121f;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: clamp(22px, 4vw, 32px);
+    margin-bottom: 40px;
+  }
+  .compare-block h3{
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(16px, 2vw, 19px);
+    margin-bottom: 6px;
+  }
+  .compare-block .hint{ font-size: 11.5px; color: var(--muted); margin-bottom: 18px; }
+  table.compare{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(12.5px, 1.4vw, 14px);
+  }
+  table.compare th, table.compare td{
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--panel-border);
+    vertical-align: top;
+  }
+  table.compare th{
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 10.5px;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  table.compare th.col-cisco{ color: var(--cisco); }
+  table.compare th.col-logisim{ color: var(--logisim); }
+  table.compare tbody tr{ transition: background 0.15s ease; }
+  table.compare tbody tr:hover{ background: rgba(47,216,255,0.04); }
+  table.compare td.row-label{ color: var(--muted); font-size: 11.5px; letter-spacing: 0.04em; white-space: nowrap; }
+  .toggle-row{ display:flex; gap:10px; margin-top: 16px; }
+  .toggle-btn{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--panel-border);
+    background: var(--paper);
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .toggle-btn.active{ color: var(--ink); border-color: var(--ink); }
+  tr.hidden-row{ display: none; }
+
   @media (max-width: 760px){
     .app-grid{ grid-template-columns: 1fr; }
+    table.compare{ font-size: 11.5px; }
   }
 </style>
 <link rel="stylesheet" href="assets/cyberpunk-fx.css">
+<link rel="stylesheet" href="assets/site-nav.css">
 </head>
 <body>
 
@@ -272,6 +331,64 @@
 
   </div>
 
+  <div class="compare-block">
+    <h3>Comparativa r&aacute;pida</h3>
+    <p class="hint">Filtra la tabla por categor&iacute;a para comparar solo lo que te interesa.</p>
+
+    <div class="toggle-row" id="filterRow">
+      <button class="toggle-btn active" data-filter="all">Todo</button>
+      <button class="toggle-btn" data-filter="tecnico">T&eacute;cnico</button>
+      <button class="toggle-btn" data-filter="acceso">Acceso y costo</button>
+    </div>
+
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Categor&iacute;a</th>
+          <th class="col-cisco">Cisco Virtual Desktop</th>
+          <th class="col-logisim">Logisim Evolution</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-cat="acceso">
+          <td class="row-label">Tipo</td>
+          <td>Simulador de hardware</td>
+          <td>Simulador de circuitos digitales</td>
+        </tr>
+        <tr data-cat="acceso">
+          <td class="row-label">Costo</td>
+          <td>Gratuito con inscripci&oacute;n</td>
+          <td>Gratuito y libre</td>
+        </tr>
+        <tr data-cat="acceso">
+          <td class="row-label">Licencia</td>
+          <td>Propietario (Cisco)</td>
+          <td>GPL-3.0 (c&oacute;digo abierto)</td>
+        </tr>
+        <tr data-cat="tecnico">
+          <td class="row-label">Plataformas</td>
+          <td>Navegador web (Chrome)</td>
+          <td>Windows, macOS, Linux</td>
+        </tr>
+        <tr data-cat="tecnico">
+          <td class="row-label">Dependencias</td>
+          <td>Ninguna (corre en el navegador)</td>
+          <td>Java 21+ (incluido en el instalador)</td>
+        </tr>
+        <tr data-cat="tecnico">
+          <td class="row-label">RAM recomendada</td>
+          <td>2 GB</td>
+          <td>4 GB</td>
+        </tr>
+        <tr data-cat="tecnico">
+          <td class="row-label">Peso aproximado</td>
+          <td>200 MB</td>
+          <td>100 MB</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <a class="next-link" href="manual.html">
     Manual de Funcionamiento B&aacute;sico
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -280,5 +397,18 @@
 </div>
 
 <script src="assets/particles.js"></script>
+<script src="assets/site-nav.js"></script>
+<script>
+  document.querySelectorAll('#filterRow .toggle-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#filterRow .toggle-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('table.compare tbody tr').forEach(row=>{
+        row.classList.toggle('hidden-row', filter !== 'all' && row.dataset.cat !== filter);
+      });
+    });
+  });
+</script>
 </body>
 </html>
