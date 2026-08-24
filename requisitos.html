@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Requisitos y Licenciamiento — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
+<title>Manual de Funcionamiento B&aacute;sico — Cisco IT Essentials Virtual Desktop &amp; Logisim Evolution</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -19,6 +19,7 @@
     --logisim-soft: #2a0d24;
     --panel-border: #163449;
     --shadow: 47, 216, 255;
+    --good: #33ffb0;
   }
 
   *{ box-sizing: border-box; margin:0; padding:0; }
@@ -87,12 +88,19 @@
     animation: title-flicker 3.6s ease-in-out infinite;
   }
 
+  p.section-desc{
+    max-width: 58ch;
+    margin: 14px auto 0;
+    font-size: clamp(13px, 1.5vw, 14.5px);
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
   .app-grid{
     width: min(980px, 100%);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(20px, 3vw, 32px);
-    margin-bottom: 40px;
   }
 
   .app-card{
@@ -100,8 +108,10 @@
     background: #0a121f;
     border: 1px solid var(--panel-border);
     border-radius: 8px;
-    padding: clamp(26px, 4vw, 34px);
+    padding: clamp(24px, 4vw, 32px);
     box-shadow: 0 1px 2px rgba(var(--shadow),0.05), 0 18px 34px -24px rgba(var(--shadow),0.22);
+    display: flex;
+    flex-direction: column;
   }
 
   .app-card::before{
@@ -116,7 +126,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
   }
 
   .app-card-head .icon-wrap{
@@ -148,112 +158,144 @@
     color: var(--muted);
     margin-bottom: 12px;
   }
-  .field-label:not(:first-of-type){ margin-top: 26px; }
+  .field-label:not(:first-of-type){ margin-top: 24px; }
 
-  ul.plain-list{
+  ol.step-list{
     list-style: none;
+    counter-reset: step;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
-
-  ul.plain-list li{
+  ol.step-list li{
+    counter-increment: step;
     position: relative;
-    padding-left: 18px;
+    padding-left: 28px;
     text-align: left;
-    font-size: clamp(13.5px, 1.5vw, 15px);
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  ul.plain-list li::before{
-    content: "";
-    position: absolute;
-    left: 0; top: 0.6em;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-  }
-  .app-card.cisco ul.plain-list li::before{ background: var(--cisco); }
-  .app-card.logisim ul.plain-list li::before{ background: var(--logisim); }
-
-  p.license-text{
-    text-align: left;
-    font-size: clamp(13.5px, 1.5vw, 15px);
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  .badge{
-    display: inline-block;
-    margin-top: 10px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-  }
-  .app-card.cisco .badge{ background: var(--cisco-soft); color: var(--cisco); }
-  .app-card.logisim .badge{ background: var(--logisim-soft); color: var(--logisim); }
-
-  /* --- comparison table (new) --- */
-  .compare-block{
-    width: min(980px, 100%);
-    background: #0a121f;
-    border: 1px solid var(--panel-border);
-    border-radius: 8px;
-    padding: clamp(22px, 4vw, 32px);
-    margin-bottom: 40px;
-  }
-  .compare-block h3{
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(16px, 2vw, 19px);
-    margin-bottom: 6px;
-  }
-  .compare-block .hint{ font-size: 11.5px; color: var(--muted); margin-bottom: 18px; }
-  table.compare{
-    width: 100%;
-    border-collapse: collapse;
     font-size: clamp(12.5px, 1.4vw, 14px);
+    line-height: 1.55;
+    color: var(--ink);
   }
-  table.compare th, table.compare td{
-    text-align: left;
-    padding: 12px 10px;
-    border-bottom: 1px solid var(--panel-border);
-    vertical-align: top;
-  }
-  table.compare th{
+  ol.step-list li::before{
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 0;
+    width: 18px; height: 18px;
+    border-radius: 50%;
     font-family: 'IBM Plex Mono', monospace;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    color: #05070d;
+  }
+  .app-card.cisco ol.step-list li::before{ background: var(--cisco); }
+  .app-card.logisim ol.step-list li::before{ background: var(--logisim); }
+
+  /* --- interactive demo widgets --- */
+  .demo-box{
+    margin-top: 24px;
+    border: 1px dashed var(--panel-border);
+    border-radius: 8px;
+    padding: 18px;
+    background: var(--paper);
+  }
+  .demo-label{
     font-size: 10.5px;
-    color: var(--muted);
-    cursor: pointer;
-    user-select: none;
-  }
-  table.compare th.col-cisco{ color: var(--cisco); }
-  table.compare th.col-logisim{ color: var(--logisim); }
-  table.compare tbody tr{ transition: background 0.15s ease; }
-  table.compare tbody tr:hover{ background: rgba(47,216,255,0.04); }
-  table.compare td.row-label{ color: var(--muted); font-size: 11.5px; letter-spacing: 0.04em; white-space: nowrap; }
-  .toggle-row{ display:flex; gap:10px; margin-top: 16px; }
-  .toggle-btn{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding: 7px 14px;
-    border-radius: 20px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .demo-label .live-dot{
+    width:6px; height:6px; border-radius:50%; background: var(--good);
+    box-shadow: 0 0 6px var(--good);
+    animation: pulse-dot 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse-dot{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  /* Cisco: clickable hotspot identifier */
+  .hotspot-stage{
+    position: relative;
+    aspect-ratio: 16/11;
+    background: linear-gradient(180deg, var(--cisco-soft), #0a121f);
+    border-radius: 6px;
+    border: 1px solid var(--panel-border);
+  }
+  .hotspot-stage svg{ width:100%; height:100%; }
+  .hotspot{
+    fill: rgba(47,216,255,0.12);
+    stroke: var(--cisco);
+    stroke-width: 1.4;
+    stroke-dasharray: 3 3;
+    cursor: pointer;
+    transition: fill 0.15s ease;
+  }
+  .hotspot:hover, .hotspot.active{ fill: rgba(47,216,255,0.35); }
+  .hotspot-caption{
+    margin-top: 10px;
+    min-height: 34px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .hotspot-caption strong{ color: var(--cisco); }
+
+  /* Logisim: mini AND-gate simulator */
+  .gate-sim{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 8px 0 4px;
+  }
+  .io-toggle{
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 2px solid var(--panel-border);
+    background: #0a121f;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .io-toggle.on{ border-color: var(--logisim); color: var(--logisim); box-shadow: 0 0 12px rgba(255,47,208,0.45); }
+  .gate-shape{
+    width: 70px; height: 60px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .gate-out{
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 2px solid var(--panel-border);
+    background: #0a121f;
+    color: var(--muted);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700; font-size:13px;
+  }
+  .gate-out.on{ border-color: var(--good); color: var(--good); box-shadow: 0 0 12px rgba(51,255,176,0.45); }
+  .gate-hint{ text-align:center; font-size: 11.5px; color: var(--muted); margin-top: 10px; }
+  .gate-select{
+    display:flex; gap:8px; justify-content:center; margin-bottom: 14px;
+  }
+  .gate-select button{
+    font-family:'IBM Plex Mono',monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    padding: 5px 11px;
+    border-radius: 14px;
     border: 1px solid var(--panel-border);
     background: var(--paper);
     color: var(--muted);
-    cursor: pointer;
+    cursor:pointer;
   }
-  .toggle-btn.active{ color: var(--ink); border-color: var(--ink); }
-  tr.hidden-row{ display: none; }
+  .gate-select button.active{ color: var(--logisim); border-color: var(--logisim); }
 
   @media (max-width: 760px){
     .app-grid{ grid-template-columns: 1fr; }
-    table.compare{ font-size: 11.5px; }
   }
 </style>
 <link rel="stylesheet" href="assets/cyberpunk-fx.css">
@@ -266,14 +308,15 @@
 
 <div class="page">
 
-  <a class="back-link" href="guia-instalacion.html">
+  <a class="back-link" href="requisitos.html">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Gu&iacute;a de Descarga e Instalaci&oacute;n
+    Requisitos y Licenciamiento
   </a>
 
   <div class="section-head">
-    <p class="section-eyebrow">Tema #1 &middot; Punto 5</p>
-    <h1 class="section-title">Requisitos del Sistema y Licenciamiento</h1>
+    <p class="section-eyebrow">Tema #1 &middot; Punto 6</p>
+    <h1 class="section-title">Manual de Funcionamiento B&aacute;sico</h1>
+    <p class="section-desc">Pasos esenciales para usar cada herramienta por primera vez, m&aacute;s una demo interactiva de cada una para practicar la idea antes de abrir el programa real.</p>
   </div>
 
   <div class="app-grid">
@@ -291,16 +334,30 @@
         <h2>Cisco IT Essentials<br>Virtual Desktop</h2>
       </div>
 
-      <p class="field-label">Requisitos del sistema</p>
-      <ul class="plain-list">
-        <li>Windows 7/8/10/11 o macOS con navegador compatible.</li>
-        <li>Google Chrome (recomendado por Cisco para esta actividad).</li>
-        <li>M&iacute;nimo 2 GB de RAM y 200 MB de espacio libre.</li>
-      </ul>
+      <p class="field-label">Uso b&aacute;sico</p>
+      <ol class="step-list">
+        <li>Abre el <code>index.html</code> de la actividad; espera a que cargue el entorno 3D.</li>
+        <li>Usa el mouse para rotar la vista del gabinete y la rueda para acercar o alejar.</li>
+        <li>Haz clic sobre una pieza resaltada para seleccionarla y ver su nombre.</li>
+        <li>Arrastra la pieza fuera del gabinete para extraerla, y de vuelta a su ranura para reinstalarla.</li>
+        <li>Sigue el orden sugerido por la actividad: fuente de poder &rarr; placa madre &rarr; RAM &rarr; almacenamiento &rarr; tarjetas de expansi&oacute;n.</li>
+      </ol>
 
-      <p class="field-label">Licenciamiento</p>
-      <p class="license-text">Uso gratuito, pero restringido a estudiantes y docentes inscritos oficialmente en Cisco Networking Academy; no es un software de distribuci&oacute;n p&uacute;blica independiente.</p>
-      <span class="badge">Acceso restringido &middot; gratuito</span>
+      <div class="demo-box">
+        <p class="demo-label"><span class="live-dot"></span>Demo &middot; identifica el componente</p>
+        <div class="hotspot-stage">
+          <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="10" width="80" height="120" rx="4" stroke="#2fd8ff" stroke-width="2" fill="none"/>
+            <rect class="hotspot" data-name="Placa madre" data-desc="Conecta y coordina todos los dem&aacute;s componentes del equipo." x="30" y="70" width="60" height="52" rx="2"/>
+            <rect class="hotspot" data-name="M&oacute;dulo RAM" data-desc="Memoria de corto plazo: guarda los datos que el procesador usa en el momento." x="34" y="22" width="18" height="40" rx="2"/>
+            <circle class="hotspot" data-name="Procesador (CPU)" data-desc="El 'cerebro' del equipo; ejecuta las instrucciones de los programas." cx="70" cy="42" r="15"/>
+            <rect class="hotspot" data-name="Fuente de poder" data-desc="Convierte la corriente el&eacute;ctrica en la energ&iacute;a que usan los componentes." x="120" y="20" width="55" height="34" rx="2"/>
+            <rect class="hotspot" data-name="Disco de almacenamiento" data-desc="Guarda de forma permanente el sistema operativo y los archivos." x="120" y="66" width="55" height="24" rx="2"/>
+            <rect class="hotspot" data-name="Tarjeta de expansi&oacute;n" data-desc="Se conecta a la placa madre para agregar funciones (video, red, etc.)." x="120" y="100" width="55" height="16" rx="2"/>
+          </svg>
+        </div>
+        <p class="hotspot-caption" id="hotspotCaption">Toca cualquier pieza resaltada para ver de qu&eacute; se trata.</p>
+      </div>
     </article>
 
     <article class="app-card logisim">
@@ -317,80 +374,43 @@
         <h2>Logisim Evolution</h2>
       </div>
 
-      <p class="field-label">Requisitos del sistema</p>
-      <ul class="plain-list">
-        <li>Java 21 o superior (incluido en los instaladores oficiales).</li>
-        <li>Compatible con Windows, macOS y Linux.</li>
-        <li>4 GB de RAM recomendados y 100 MB de espacio en disco.</li>
-      </ul>
+      <p class="field-label">Uso b&aacute;sico</p>
+      <ol class="step-list">
+        <li>Abre Logisim Evolution; se crea autom&aacute;ticamente un circuito nuevo en blanco.</li>
+        <li>En el panel izquierdo, elige una compuerta (AND, OR, NOT&hellip;) de la biblioteca "Gates".</li>
+        <li>Haz clic en el lienzo para colocarla; repite para a&ntilde;adir m&aacute;s compuertas.</li>
+        <li>Usa la herramienta de cableado para conectar las salidas y entradas entre s&iacute;.</li>
+        <li>Agrega un "Pin" de entrada y uno de salida para poder probar el circuito en vivo.</li>
+        <li>Activa el modo de simulaci&oacute;n y haz clic en los pines de entrada para ver el resultado.</li>
+      </ol>
 
-      <p class="field-label">Licenciamiento</p>
-      <p class="license-text">Software libre y de c&oacute;digo abierto, bajo la Licencia P&uacute;blica General de GNU (GPL&#8209;3.0); gratuito para uso educativo, personal o institucional sin restricciones.</p>
-      <span class="badge">Software libre &middot; GPL-3.0</span>
+      <div class="demo-box">
+        <p class="demo-label"><span class="live-dot"></span>Demo &middot; simulador de compuerta en vivo</p>
+        <div class="gate-select" id="gateSelect">
+          <button data-gate="AND" class="active">AND</button>
+          <button data-gate="OR">OR</button>
+          <button data-gate="XOR">XOR</button>
+        </div>
+        <div class="gate-sim">
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <button class="io-toggle" id="inA">A&#8202;0</button>
+            <button class="io-toggle" id="inB">B&#8202;0</button>
+          </div>
+          <div class="gate-shape">
+            <svg viewBox="0 0 60 50" width="60" height="50">
+              <path id="gatePath" d="M8 6h16a19 19 0 0 1 0 38h-16z" stroke="#ff2fd0" stroke-width="2.4" fill="none" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="gate-out" id="gateOut">0</div>
+        </div>
+        <p class="gate-hint" id="gateHint">Toca A y B para cambiar sus valores y observa la salida de la compuerta AND.</p>
+      </div>
     </article>
 
   </div>
 
-  <div class="compare-block">
-    <h3>Comparativa r&aacute;pida</h3>
-    <p class="hint">Filtra la tabla por categor&iacute;a para comparar solo lo que te interesa.</p>
-
-    <div class="toggle-row" id="filterRow">
-      <button class="toggle-btn active" data-filter="all">Todo</button>
-      <button class="toggle-btn" data-filter="tecnico">T&eacute;cnico</button>
-      <button class="toggle-btn" data-filter="acceso">Acceso y costo</button>
-    </div>
-
-    <table class="compare">
-      <thead>
-        <tr>
-          <th>Categor&iacute;a</th>
-          <th class="col-cisco">Cisco Virtual Desktop</th>
-          <th class="col-logisim">Logisim Evolution</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr data-cat="acceso">
-          <td class="row-label">Tipo</td>
-          <td>Simulador de hardware</td>
-          <td>Simulador de circuitos digitales</td>
-        </tr>
-        <tr data-cat="acceso">
-          <td class="row-label">Costo</td>
-          <td>Gratuito con inscripci&oacute;n</td>
-          <td>Gratuito y libre</td>
-        </tr>
-        <tr data-cat="acceso">
-          <td class="row-label">Licencia</td>
-          <td>Propietario (Cisco)</td>
-          <td>GPL-3.0 (c&oacute;digo abierto)</td>
-        </tr>
-        <tr data-cat="tecnico">
-          <td class="row-label">Plataformas</td>
-          <td>Navegador web (Chrome)</td>
-          <td>Windows, macOS, Linux</td>
-        </tr>
-        <tr data-cat="tecnico">
-          <td class="row-label">Dependencias</td>
-          <td>Ninguna (corre en el navegador)</td>
-          <td>Java 21+ (incluido en el instalador)</td>
-        </tr>
-        <tr data-cat="tecnico">
-          <td class="row-label">RAM recomendada</td>
-          <td>2 GB</td>
-          <td>4 GB</td>
-        </tr>
-        <tr data-cat="tecnico">
-          <td class="row-label">Peso aproximado</td>
-          <td>200 MB</td>
-          <td>100 MB</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <a class="next-link" href="manual.html">
-    Manual de Funcionamiento B&aacute;sico
+  <a class="next-link" href="videos.html">
+    Videos de la Instalaci&oacute;n
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
 
@@ -399,16 +419,62 @@
 <script src="assets/particles.js"></script>
 <script src="assets/site-nav.js"></script>
 <script>
-  document.querySelectorAll('#filterRow .toggle-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('#filterRow .toggle-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      document.querySelectorAll('table.compare tbody tr').forEach(row=>{
-        row.classList.toggle('hidden-row', filter !== 'all' && row.dataset.cat !== filter);
-      });
+  // Cisco hotspot identifier
+  const caption = document.getElementById('hotspotCaption');
+  document.querySelectorAll('.hotspot').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      document.querySelectorAll('.hotspot').forEach(o=>o.classList.remove('active'));
+      h.classList.add('active');
+      caption.innerHTML = '<strong>' + h.dataset.name + ':</strong> ' + h.dataset.desc;
     });
   });
+
+  // Logisim mini gate simulator
+  (function(){
+    let a = 0, b = 0, gate = 'AND';
+    const inA = document.getElementById('inA');
+    const inB = document.getElementById('inB');
+    const out = document.getElementById('gateOut');
+    const hint = document.getElementById('gateHint');
+    const gatePath = document.getElementById('gatePath');
+
+    const shapes = {
+      AND: 'M8 6h16a19 19 0 0 1 0 38h-16z',
+      OR:  'M8 6c10 0 18 8 18 19S18 44 8 44c6-12 6-26 0-38z',
+      XOR: 'M12 6c10 0 18 8 18 19s-8 19-18 19c6-12 6-26 0-38zM6 6c3 6 5 13 5 19s-2 13-5 19'
+    };
+
+    function compute(){
+      if (gate === 'AND') return a && b ? 1 : 0;
+      if (gate === 'OR') return a || b ? 1 : 0;
+      return (a ^ b);
+    }
+
+    function render(){
+      out.textContent = compute();
+      out.classList.toggle('on', compute() === 1);
+      inA.textContent = 'A\u2002' + a;
+      inB.textContent = 'B\u2002' + b;
+      inA.classList.toggle('on', a === 1);
+      inB.classList.toggle('on', b === 1);
+      gatePath.setAttribute('d', shapes[gate]);
+      hint.textContent = 'Toca A y B para cambiar sus valores y observa la salida de la compuerta ' + gate + '.';
+    }
+
+    inA.addEventListener('click', ()=>{ a = a ? 0 : 1; render(); });
+    inB.addEventListener('click', ()=>{ b = b ? 0 : 1; render(); });
+
+    document.querySelectorAll('#gateSelect button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('#gateSelect button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        gate = btn.dataset.gate;
+        render();
+      });
+    });
+
+    render();
+  })();
 </script>
 </body>
 </html>
