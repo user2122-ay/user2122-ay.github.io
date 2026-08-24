@@ -365,6 +365,7 @@
   }
 </style>
 <link rel="stylesheet" href="assets/cyberpunk-fx.css">
+<link rel="stylesheet" href="assets/site-nav.css">
 </head>
 <body>
 
@@ -562,6 +563,7 @@
 
     saveAttempt(score);
     renderHistory();
+    try{ localStorage.setItem('tema1-quiz-done', '1'); }catch(e){}
   }
 
   function saveAttempt(score){
@@ -615,5 +617,6 @@
 </script>
 
 <script src="assets/particles.js"></script>
+<script src="assets/site-nav.js"></script>
 </body>
 </html>
