@@ -172,39 +172,6 @@
     margin-bottom: 22px;
   }
 
-  .shot-slot{
-    position: relative;
-    border: 1.5px dashed var(--panel-border);
-    border-radius: 6px;
-    aspect-ratio: 16/10;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 14px;
-    background: var(--paper);
-  }
-
-  .shot-slot span{
-    position: relative;
-    z-index: 1;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  .shot-slot img{
-    position: absolute;
-    z-index: 2;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
   .art-panel{
     border-radius: 6px;
     overflow: hidden;
@@ -220,11 +187,56 @@
 
   .art-panel svg{ width: 78%; height: 78%; }
 
+  /* --- context tabs (new) --- */
+  .context-block{
+    width: min(980px, 100%);
+    background: #0a121f;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: clamp(22px, 4vw, 32px);
+    margin-bottom: 40px;
+  }
+  .context-tabs{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .context-tab-btn{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    color: var(--muted);
+    padding: 10px 4px;
+    margin-right: 18px;
+    cursor: pointer;
+    position: relative;
+  }
+  .context-tab-btn::after{
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px;
+    background: transparent;
+  }
+  .context-tab-btn.active{ color: var(--ink); }
+  .context-tab-btn.active::after{ background: var(--cisco); }
+  .context-panel{ display:none; font-size: clamp(13.5px,1.5vw,15px); line-height:1.75; color: var(--ink); }
+  .context-panel.active{ display:block; animation: fadein .25s ease; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+  .context-panel ul{ padding-left: 20px; margin-top: 10px; }
+  .context-panel li{ margin-bottom: 6px; }
+
   @media (max-width: 760px){
     .app-grid{ grid-template-columns: 1fr; }
   }
 </style>
 <link rel="stylesheet" href="assets/cyberpunk-fx.css">
+<link rel="stylesheet" href="assets/site-nav.css">
 </head>
 <body>
 
@@ -357,6 +369,27 @@
 
   </div>
 
+  <div class="context-block">
+    <div class="context-tabs" role="tablist" aria-label="Contexto de uso">
+      <button class="context-tab-btn active" data-tab="por-que">&iquest;Por qu&eacute; existen estas herramientas?</button>
+      <button class="context-tab-btn" data-tab="donde">&iquest;D&oacute;nde se usan?</button>
+      <button class="context-tab-btn" data-tab="relacion">&iquest;C&oacute;mo se relacionan entre s&iacute;?</button>
+    </div>
+
+    <div class="context-panel active" data-panel="por-que">
+      <p>Montar computadoras reales o comprar kits de electr&oacute;nica digital para cada estudiante es costoso y de alto riesgo (piezas fr&aacute;giles, componentes caros, posibilidad de da&ntilde;o). Ambas herramientas nacen para resolver ese mismo problema desde dos &aacute;ngulos distintos: hardware por fuera (Cisco) y l&oacute;gica digital por dentro (Logisim).</p>
+    </div>
+    <div class="context-panel" data-panel="donde">
+      <ul>
+        <li><strong>Cisco IT Essentials Virtual Desktop</strong> se usa en cursos de mantenimiento y ensamblaje de computadoras, generalmente dentro del programa Cisco Networking Academy.</li>
+        <li><strong>Logisim Evolution</strong> se usa en cursos de electr&oacute;nica digital, arquitectura de computadoras y l&oacute;gica computacional, tanto en colegios como en universidades.</li>
+      </ul>
+    </div>
+    <div class="context-panel" data-panel="relacion">
+      <p>Aunque son productos distintos y de proveedores distintos, se complementan en un curso de inform&aacute;tica: Cisco ense&ntilde;a c&oacute;mo se ve y arma el <em>hardware</em> por fuera, mientras que Logisim ense&ntilde;a c&oacute;mo funciona la l&oacute;gica digital que hace posible ese hardware por dentro (las compuertas que forman un procesador, por ejemplo).</p>
+    </div>
+  </div>
+
   <a class="next-link" href="ventajas.html">
     Ventajas y Desventajas
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -365,5 +398,16 @@
 </div>
 
 <script src="assets/particles.js"></script>
+<script src="assets/site-nav.js"></script>
+<script>
+  document.querySelectorAll('.context-tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.context-tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.context-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector('.context-panel[data-panel="'+btn.dataset.tab+'"]').classList.add('active');
+    });
+  });
+</script>
 </body>
 </html>
