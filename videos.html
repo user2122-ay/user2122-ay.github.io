@@ -175,11 +175,36 @@
 
   .video-caption a{ color: var(--muted); }
 
+  .tip-toggle{
+    margin-top: 14px;
+    width: 100%;
+    text-align: left;
+    background: var(--paper);
+    border: 1px dashed var(--panel-border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    cursor: pointer;
+  }
+  .tip-body{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .tip-body p{ padding-top: 10px; }
+  .tip-open .tip-body{ max-height: 160px; }
+
   @media (max-width: 760px){
     .app-grid{ grid-template-columns: 1fr; }
   }
 </style>
 <link rel="stylesheet" href="assets/cyberpunk-fx.css">
+<link rel="stylesheet" href="assets/site-nav.css">
 </head>
 <body>
 
@@ -221,6 +246,9 @@
         <iframe src="https://www.youtube.com/embed/odPRhroEoq0" title="Tutorial Ensamblaje de PC usando Cisco IT Essentials Virtual Desktop" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="video-caption">Tutorial Ensamblaje de PC usando Cisco IT Essentials Virtual Desktop &mdash; YouTube</p>
+
+      <button class="tip-toggle" data-tip="tip-cisco">+ Tip r&aacute;pido antes de ver el video</button>
+      <div class="tip-body" id="tip-cisco"><p>Ten a mano l&aacute;piz y papel: el video menciona el nombre de cada pieza en ingl&eacute;s (motherboard, PSU, HDD). Pausa y busca el t&eacute;rmino equivalente en espa&ntilde;ol si no lo reconoces.</p></div>
     </article>
 
     <article class="app-card logisim">
@@ -241,6 +269,9 @@
         <iframe src="https://www.youtube.com/embed/AqlIazijvqw" title="Como instalar Logisim Evolution en Windows 10" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="video-caption">C&oacute;mo instalar Logisim Evolution en Windows 10 &mdash; YouTube</p>
+
+      <button class="tip-toggle" data-tip="tip-logisim">+ Tip r&aacute;pido antes de ver el video</button>
+      <div class="tip-body" id="tip-logisim"><p>Si Windows Defender SmartScreen bloquea el instalador, es normal en software de c&oacute;digo abierto sin firma comercial: usa "M&aacute;s informaci&oacute;n &rarr; Ejecutar de todas formas" solo porque lo descargaste del repositorio oficial de GitHub.</p></div>
     </article>
 
   </div>
@@ -253,5 +284,14 @@
 </div>
 
 <script src="assets/particles.js"></script>
+<script src="assets/site-nav.js"></script>
+<script>
+  document.querySelectorAll('.tip-toggle').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const card = btn.closest('.app-card');
+      card.classList.toggle('tip-open');
+    });
+  });
+</script>
 </body>
 </html>
