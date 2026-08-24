@@ -1,0 +1,111 @@
+/* ===== Shared site navigation — injected by site-nav.js on every page ===== */
+
+#site-nav{
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  width: 100%;
+  background: rgba(6, 10, 19, 0.86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid #163449;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+#site-nav .sn-inner{
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 10px clamp(14px, 4vw, 32px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+#site-nav .sn-home{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #dff6ff;
+  flex-shrink: 0;
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+}
+
+#site-nav .sn-home .sn-dot{
+  width: 8px; height: 8px; border-radius: 50%;
+  background: linear-gradient(90deg, #2fd8ff, #ff2fd0);
+  box-shadow: 0 0 8px rgba(47,216,255,0.6);
+  flex-shrink: 0;
+}
+
+#site-nav .sn-links{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+#site-nav .sn-links::-webkit-scrollbar{ display: none; }
+
+#site-nav .sn-link{
+  flex-shrink: 0;
+  text-decoration: none;
+  color: #6f93ab;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 6px 11px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  position: relative;
+}
+#site-nav .sn-link:hover{ color: #dff6ff; border-color: #163449; }
+#site-nav .sn-link.current{
+  color: #dff6ff;
+  border-color: #2fd8ff;
+  background: rgba(47,216,255,0.08);
+}
+#site-nav .sn-link.visited::before{
+  content: "";
+  position: absolute;
+  top: 4px; right: 5px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #33ffb0;
+  box-shadow: 0 0 4px rgba(51,255,176,0.8);
+}
+#site-nav .sn-link.current::before{ display: none; }
+
+#site-nav .sn-progress{
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10.5px;
+  color: #6f93ab;
+  letter-spacing: 0.06em;
+}
+
+#site-nav .sn-bar{
+  width: 46px;
+  height: 4px;
+  border-radius: 3px;
+  background: #163449;
+  overflow: hidden;
+}
+#site-nav .sn-bar-fill{
+  height: 100%;
+  background: linear-gradient(90deg, #2fd8ff, #ff2fd0);
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+@media (max-width: 640px){
+  #site-nav .sn-progress .sn-progress-text{ display: none; }
+}
+
